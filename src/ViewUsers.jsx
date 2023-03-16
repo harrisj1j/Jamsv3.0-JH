@@ -5,6 +5,7 @@ import { IoIosCreate } from 'react-icons/io';
 import {Link} from "react-router-dom"
 import { async } from "@firebase/util";
 import { ImWarning } from 'react-icons/im';
+import Table from 'react-bootstrap/Table';
 
 
 
@@ -79,6 +80,37 @@ export const ViewUsers = () =>{
     return(
         //Display user info
         <div className="view-users-container"> 
+
+            <Table responsive striped bordered hover>
+                <thead>
+                    <tr>
+                    <th>User ID</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Edit</th>
+                    <th>Deactivate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users && users.map((user) => (
+                    <tr key={user.id}>
+                    <td>{user.username} </td>
+                    <td>{user.firstName} {user.lastName}</td>
+                    <td>{user.role}</td>
+                    <td><Link onClick={() => {}} className="va-button">
+                            <a><IoIosCreate size={15}/></a>
+                        </Link>
+                    </td>
+                    <td><Link onClick={() => {}} className="va-button">
+                            <a><ImWarning size={15}/></a>
+                        </Link>
+                    </td>
+                
+                    </tr>
+                    ))}
+                </tbody>
+            </Table>
+            {/*}
             {users.map((user) => { 
                 return (
                     <>
@@ -89,7 +121,7 @@ export const ViewUsers = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit first name</p>
                             <input placeholder="Name..." onChange={(event) => {setNewFName(event.target.value)}} />
@@ -106,7 +138,7 @@ export const ViewUsers = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit last namer</p>
                             <input  onChange={(event) => {setNewLName(event.target.value)}} />
@@ -121,7 +153,7 @@ export const ViewUsers = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit birthday</p>
                             <input  onChange={(event) => {setNewBDay(event.target.value)}} />
@@ -137,7 +169,7 @@ export const ViewUsers = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit role</p>
                             <input  onChange={(event) => {setNewRole(event.target.value)}} />
@@ -166,7 +198,7 @@ export const ViewUsers = () =>{
 
                     )
                     
-                })}
+                })} */}
         </div>
 
     )

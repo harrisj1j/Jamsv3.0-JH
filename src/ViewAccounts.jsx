@@ -108,6 +108,9 @@ export const ViewAccounts = () =>{
                             <th>#</th>
                             <th>Name</th>
                             <th>Category</th>
+                            <th>Edit</th>
+                            <th>Deactivate</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -116,6 +119,15 @@ export const ViewAccounts = () =>{
                             <td>{account.number}</td>
                             <td>{account.name}</td>
                             <td>{account.category}</td>
+                            <td><Link onClick={() => {seteditbox(true)}} className="va-button">
+                                    <a><IoIosCreate size={15}/></a>
+                                </Link>
+                            </td>
+                            <td><Link onClick={() => {deactivateAccount(account.id)}} className="va-button">
+                                    <a><ImWarning size={15}/></a>
+                                </Link>
+                            </td>
+                           
                             </tr>
                             ))}
                         </tbody>
