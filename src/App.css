@@ -56,6 +56,7 @@
 .card {
   padding: 5rem;
   border: 1px solid #B4FEE7;
+  background: transparent;
   border-radius: 10px;
   margin: 0.5rem;
   box-shadow: 3px 5px 5px grey;
@@ -129,3 +130,5 @@ button {
     margin: 0.5rem;
   }
 }
+
+

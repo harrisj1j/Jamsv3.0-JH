@@ -1,6 +1,6 @@
 import { createBrowserRouter, createRoutesFromElements, Route, Link, Outlet, RouterProvider } from 'react-router-dom';
 import { createRoot } from "react-dom/client";
-import './App.css';
+
 import './NavbarStyles.css'
 import { Login } from './Login';
 import { Register } from './Register';
@@ -15,10 +15,8 @@ import {ViewAccounts} from './ViewAccounts'
 import {ViewUsers} from './ViewUsers'
 import {DeactivateAccount} from './DeactivateAccount'
 import React, { useEffect, useState } from 'react';
-
-
-
-
+import './bootstrap.css';
+import './App.css';
 
 
 function App() {

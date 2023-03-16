@@ -6,6 +6,9 @@ import {Link} from "react-router-dom"
 import { async } from "@firebase/util";
 import { ImWarning } from 'react-icons/im';
 import {EditAccount} from './EditAccount';
+import Table from 'react-bootstrap/Table';
+
+
 
 
 
@@ -97,17 +100,34 @@ export const ViewAccounts = () =>{
     return(
         //Display account info
         <div className="view-accounts-container"> 
-            {accounts.map((account) => { 
-                return (
+            
                     <>
-                    <div className="view-accounts-row">
+                    <Table responsive striped bordered hover>
+                        <thead>
+                            <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {accounts && accounts.map((account) => (
+                            <tr key={account.id}>
+                            <td>{account.number}</td>
+                            <td>{account.name}</td>
+                            <td>{account.category}</td>
+                            </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                    {/**
                         <h3>name</h3>
                         <div id="name" type="name" name="name"><p>{account.name}</p></div>
                         <Link onClick={() => {seteditbox(true)}} className="va-button">
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit name</p>
                             <input placeholder="Name..." onChange={(event) => {setNewName(event.target.value)}} />
@@ -124,7 +144,7 @@ export const ViewAccounts = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit number</p>
                             <input  onChange={(event) => {setNewNumber(event.target.value)}} />
@@ -139,7 +159,7 @@ export const ViewAccounts = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit credit</p>
                             <input  onChange={(event) => {setNewCredit(event.target.value)}} />
@@ -155,7 +175,7 @@ export const ViewAccounts = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field
                         {editbox === true && <div>
                             <p>edit debit</p>
                             <input  onChange={(event) => {setNewDebit(event.target.value)}} />
@@ -172,7 +192,7 @@ export const ViewAccounts = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit category</p>
                             <input  onChange={(event) => {setNewCategory(event.target.value)}} />
@@ -189,7 +209,7 @@ export const ViewAccounts = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit initial balance</p>
                             <input  onChange={(event) => {setNewIB(event.target.value)}} />
@@ -208,7 +228,7 @@ export const ViewAccounts = () =>{
                             <a><IoIosCreate size={30}/></a>
                         </Link>
 
-                        {/**when edit button is clicked, edit box appears to edit field */}
+                        {/**when edit button is clicked, edit box appears to edit field 
                         {editbox === true && <div>
                             <p>edit description</p>
                             <input  onChange={(event) => {setNewDescription(event.target.value)}} />
@@ -228,13 +248,14 @@ export const ViewAccounts = () =>{
                         
                         
                         
-                    </div>
+                    
                     <br />
+                */}
                     </>
 
-                    )
                     
-                })}
+                    
+                
         </div>
 
     )
