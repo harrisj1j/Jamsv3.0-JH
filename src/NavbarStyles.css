@@ -51,7 +51,13 @@ nav{
     bottom: -4px;
     left: 20px;
   }
-
+  .nav-logo {
+    display: flex;
+    max-height: 5%;
+    margin-right: 10rem;
+    
+  }
+  
 
   label {
     text-align: left;

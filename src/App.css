@@ -18,14 +18,9 @@
   
 }
 
-.aa-form-container, .addaccount-form {
+.aa-form-container, .addaccount-form, .view-accounts-container, .ledger-container {
   display: flex;
   flex-direction: column;
-}
-
-.view-accounts-container {
-  display: flex;
-  flex-direction: row;
 }
 
 .authdetails {

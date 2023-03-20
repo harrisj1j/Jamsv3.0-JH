@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import {db} from './firestore';
-import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore"
+import { collection, getDocs, getDoc, deleteDoc, doc, updateDoc } from "firebase/firestore"
 import { IoIosCreate } from 'react-icons/io';
 import {Link, createSearchParams, useNavigate} from "react-router-dom"
 import { ImWarning } from 'react-icons/im';
 import Table from 'react-bootstrap/Table';
+import menuLogo from './img/JAMS_1563X1563.png'
+
 
 
 
@@ -17,23 +19,30 @@ export const ViewAccounts = () =>{
     const [accounts, setAccounts] = useState([]);
     const accountsCollectionRef = collection(db,  "accounts");
     const [editbox, seteditbox] = useState(false);
-    const [newName, setNewName] = useState("")
-    const [newNumber, setNewNumber] = useState(0)
-    const [newCategory, setNewCategory] = useState("")
-    const [newCredit, setNewCredit] = useState(0)
-    const [newDebit, setNewDebit] = useState(0)
-    const [newIB, setNewIB] = useState("")
-    const [newDescription, setNewDescription] = useState("")
+    
 
   
 
     const deactivateAccount = async (id) => {
         const accountDoc = doc(db, "accounts", id);
-        await deleteDoc(accountDoc);
+        
+        const docSnap = await getDoc(accountDoc);
+        const data = docSnap.data();
+        const balance = data.balance
+
+
+        if(balance < 0.01){
+            await deleteDoc(accountDoc);
         alert("Account deactivated. Refresh to view changes");
+        }
+        else{
+            
+            alert("Account with remaining balance cannot be deactivated.");
+        }
+        
     }
 
-    const openLedger = (x, y, z) => {
+    const openLedger = (x) => {
         navigate({
             pathname: "ledger",
             search: createSearchParams({
@@ -65,9 +74,14 @@ export const ViewAccounts = () =>{
 
     return(
         //Display account info
+        
+        <>
+      
         <div className="view-accounts-container"> 
             
                     <>
+                    
+                    <h2>Chart of Accounts</h2>
                     <Table responsive striped bordered hover>
                         <thead>
                             <tr>
@@ -280,6 +294,6 @@ export const ViewAccounts = () =>{
                     
                 
         </div>
-
+        </>
     )
 }
