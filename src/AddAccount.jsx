@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, u } from "react";
 import {db} from './firestore';
-import { collection, getDocs, addDoc} from "firebase/firestore"
+import { collection,  addDoc, query, where, getDocs} from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 
@@ -8,20 +8,36 @@ export const accountsCollectionRef = collection(db,  "accounts");
 
 export const AddAccount = () =>{
 
-   const [newName, setNewName] = useState("")
+    const [newName, setNewName] = useState("")
     const [newNumber, setNewNumber] = useState(0)
     const [newCategory, setNewCategory] = useState("")
     const [newCredit, setNewCredit] = useState(0)
     const [newDebit, setNewDebit] = useState(0)
     const [newIB, setNewIB] = useState(0)
     const [newDescription, setNewDescription] = useState("")
-    const [newBalance, setNewBalance] = useState(0)
+  
+    
+    //querying the database for duplicate entries
+    const checkDup = async (nameChk) => {
+        
+        let dup = false;
+        const q = query(accountsCollectionRef, where("name","==", newName))
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            
+            dup = doc.data().includes(nameChk)
+        })
+
+       
+
+
+    }
     const navigate = useNavigate();
     const numCheck = new RegExp(/^\+?(0*[1-9]\d*(?:[\., ]\d+)*) *(?:\p{Sc}|°[FC])?$/mg) //regular expression for checking if input is a positive integer
 
 
     //check that account number is a positive integer
-    const accntnumChk = (e) => {
+    const accntnumChk =  (e) => {
         
         if (numCheck.test(e)) 
             setNewNumber(e)
@@ -37,13 +53,21 @@ export const AddAccount = () =>{
     const [accounts, setAccounts] = useState([]);
    
     const createAccount = async () => {
+
+        
+
+        let dupAccount = false;
+        dupAccount = checkDup(newName);
         
         //check to make sure valid entries for name and number have been entered, if so create account
-        if(newName !== '' && newNumber !== 0){
+        if(newName !== '' && newNumber !== 0 && dupAccount === false){
             await addDoc(accountsCollectionRef, {name: newName, number: newNumber, category: newCategory, credit: newCredit, debit: newDebit, initialBalance: newIB, balance: parseFloat(calcBalance(newIB, newCredit, newDebit)), description: newDescription})
             navigate("/adminhome/viewaccounts");}
+        else if(dupAccount === true){
+            alert("Account exists")}
         else{
-            alert("enter valid name and/or number")}
+            alert("Enter valid name/number")
+        }
 
     }
 
