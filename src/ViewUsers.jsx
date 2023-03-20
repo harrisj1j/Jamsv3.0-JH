@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import {db} from './firestore';
 import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore"
 import { IoIosCreate } from 'react-icons/io';
-import {Link} from "react-router-dom"
+import {Link, createSearchParams, useNagivate} from "react-router-dom"
 import { async } from "@firebase/util";
 import { ImWarning } from 'react-icons/im';
 import Table from 'react-bootstrap/Table';
+
 
 
 
@@ -24,6 +25,7 @@ export const ViewUsers = () =>{
     const [newUsername, setNewUsername] = useState("")
     const [newBDay, setNewBDay] = useState(0)
  
+    
 
 
     const deactivateuser = async (id) => {

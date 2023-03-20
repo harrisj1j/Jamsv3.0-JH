@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 import {db} from './firestore';
 import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore"
 import { IoIosCreate } from 'react-icons/io';
-import {Link} from "react-router-dom"
-import { async } from "@firebase/util";
+import {Link, createSearchParams, useNavigate} from "react-router-dom"
 import { ImWarning } from 'react-icons/im';
-import {EditAccount} from './EditAccount';
 import Table from 'react-bootstrap/Table';
 
 
@@ -15,6 +13,7 @@ import Table from 'react-bootstrap/Table';
 export const ViewAccounts = () =>{
 
 
+    const navigate = useNavigate();
     const [accounts, setAccounts] = useState([]);
     const accountsCollectionRef = collection(db,  "accounts");
     const [editbox, seteditbox] = useState(false);
@@ -26,59 +25,26 @@ export const ViewAccounts = () =>{
     const [newIB, setNewIB] = useState("")
     const [newDescription, setNewDescription] = useState("")
 
+  
 
     const deactivateAccount = async (id) => {
         const accountDoc = doc(db, "accounts", id);
         await deleteDoc(accountDoc);
         alert("Account deactivated. Refresh to view changes");
-
-
     }
 
-    //Functions for editing data fields
-    const editName = async (id, name, newName) => {
-        const accountDoc = doc(db, "accounts", id)
-        const newFields = {name: newName}
-        await updateDoc( accountDoc, newFields)
-        alert("Account updated. Refresh to view changes");
-    }
-    const editNumber = async (id, number, newNumber) => {
-        const accountDoc = doc(db, "accounts", id)
-        const newFields = {number: newNumber}
-        await updateDoc( accountDoc, newFields)
-        alert("Account updated. Refresh to view changes");
-    }
-    const editCategory = async (id, category, newCategory) => {
-        const accountDoc = doc(db, "accounts", id)
-        const newFields = {category: newCategory}
-        await updateDoc( accountDoc, newFields)
-        alert("Account updated. Refresh to view changes");
-    }
-    const editCredit = async (id, credit, newCredit) => {
-        const accountDoc = doc(db, "accounts", id)
-        const newFields = {credit: newCredit}
-        await updateDoc( accountDoc, newFields)
-        alert("Account updated. Refresh to view changes");
-    }
-    const editDebit = async (id, debit, newDebit) => {
-        const accountDoc = doc(db, "accounts", id)
-        const newFields = {debit: newDebit}
-        await updateDoc( accountDoc, newFields)
-        alert("Account updated. Refresh to view changes");
-    }
-    const editIB = async (id, IB, newIB) => {
-        const accountDoc = doc(db, "accounts", id)
-        const newFields = {IB: newIB}
-        await updateDoc( accountDoc, newFields)
-        alert("Account updated. Refresh to view changes");
-    }
-    const editDesc = async (id, description, newDescription) => {
-        const accountDoc = doc(db, "accounts", id)
-        const newFields = {description: newDescription}
-        await updateDoc( accountDoc, newFields)
-        alert("Account updated. Refresh to view changes");
-    }
+    const openLedger = (x, y, z) => {
+        navigate({
+            pathname: "ledger",
+            search: createSearchParams({
+                id: x,
+            }).toString()
+           
+        })
+    };
+    
 
+   
     useEffect(() => {
 
         const getAccounts = async () => {
@@ -108,6 +74,7 @@ export const ViewAccounts = () =>{
                             <th>#</th>
                             <th>Name</th>
                             <th>Category</th>
+                            <th>Balance</th>
                             <th>Edit</th>
                             <th>Deactivate</th>
 
@@ -119,9 +86,9 @@ export const ViewAccounts = () =>{
                             <td>{account.number}</td>
                             <td>{account.name}</td>
                             <td>{account.category}</td>
-                            <td><Link onClick={() => {seteditbox(true)}} className="va-button">
-                                    <a><IoIosCreate size={15}/></a>
-                                </Link>
+                            <td>{numberWithCommas(account.balance)}</td>
+                            <td>
+                                <a onClick={()=>{openLedger(account.id)}}><IoIosCreate size={15}/></a>
                             </td>
                             <td><Link onClick={() => {deactivateAccount(account.id)}} className="va-button">
                                     <a><ImWarning size={15}/></a>
@@ -262,6 +229,50 @@ export const ViewAccounts = () =>{
                         
                     
                     <br />
+
+                     const editName = async (id, name, newName) => {
+        const accountDoc = doc(db, "accounts", id)
+        const newFields = {name: newName}
+        await updateDoc( accountDoc, newFields)
+        alert("Account updated. Refresh to view changes");
+    }
+    const editNumber = async (id, number, newNumber) => {
+        const accountDoc = doc(db, "accounts", id)
+        const newFields = {number: newNumber}
+        await updateDoc( accountDoc, newFields)
+        alert("Account updated. Refresh to view changes");
+    }
+    const editCategory = async (id, category, newCategory) => {
+        const accountDoc = doc(db, "accounts", id)
+        const newFields = {category: newCategory}
+        await updateDoc( accountDoc, newFields)
+        alert("Account updated. Refresh to view changes");
+    }
+    const editCredit = async (id, credit, newCredit) => {
+        const accountDoc = doc(db, "accounts", id)
+        const newFields = {credit: newCredit}
+        await updateDoc( accountDoc, newFields)
+        alert("Account updated. Refresh to view changes");
+    }
+    const editDebit = async (id, debit, newDebit) => {
+        const accountDoc = doc(db, "accounts", id)
+        const newFields = {debit: newDebit}
+        await updateDoc( accountDoc, newFields)
+        alert("Account updated. Refresh to view changes");
+    }
+    const editIB = async (id, IB, newIB) => {
+        const accountDoc = doc(db, "accounts", id)
+        const newFields = {IB: newIB}
+        await updateDoc( accountDoc, newFields)
+        alert("Account updated. Refresh to view changes");
+    }
+    const editDesc = async (id, description, newDescription) => {
+        const accountDoc = doc(db, "accounts", id)
+        const newFields = {description: newDescription}
+        await updateDoc( accountDoc, newFields)
+        alert("Account updated. Refresh to view changes");
+    }
+
                 */}
                     </>
 
