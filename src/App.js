@@ -15,6 +15,7 @@ import {ViewAccounts} from './ViewAccounts'
 import {ViewUsers} from './ViewUsers'
 import {DeactivateAccount} from './DeactivateAccount'
 import {Ledger} from "./Ledger"
+import {AdminCreateUser} from "./AdminCreateUser"
 import React, { useEffect, useState } from 'react';
 import './bootstrap.css';
 import './App.css';
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
   {
     path: "adminhome/addaccount",
     element: <AddAccount />
+  },
+  {
+    path: "adminhome/AdminCreateUser",
+    element: <AdminCreateUser/>
   },
   {
     path: "adminhome/viewaccounts/editaccount",

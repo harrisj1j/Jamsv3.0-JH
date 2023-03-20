@@ -138,15 +138,15 @@ export const AdminCreateUser = () => {
                     
                     <label htmlFor="password">Password</label>
                     <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="*******" id="password" name="password" onKeyUp={validatePassword} />
-                    
+                    <div className="must-container cfb">
+
+{MustContainData.map(data => <MustContainElement data={data} />)}
+</div>
                     <button type="submit" id = "submitReg" >Register New User</button>
                     
 
                 </form>
-                <div className="must-container cfb">
-
-                    {MustContainData.map(data => <MustContainElement data={data} />)}
-                </div>
+               
 
                 
             </div></>
