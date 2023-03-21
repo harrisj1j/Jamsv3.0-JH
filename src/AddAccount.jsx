@@ -3,6 +3,8 @@ import {db} from './firestore';
 import { collection,  addDoc, query, where, getDocs} from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
+import menuLogo from './img/JAMS_1563X1563.png'
+
 
 export const accountsCollectionRef = collection(db,  "accounts");
 
@@ -21,15 +23,6 @@ export const AddAccount = () =>{
     const checkDup = async (nameChk) => {
         
         let dup = false;
-        const q = query(accountsCollectionRef, where("name","==", newName))
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            
-            dup = doc.data().includes(nameChk)
-        })
-
-       
-
 
     }
     const navigate = useNavigate();
@@ -57,7 +50,7 @@ export const AddAccount = () =>{
         
 
         let dupAccount = false;
-        dupAccount = checkDup(newName);
+        //dupAccount = checkDup(newName);
         
         //check to make sure valid entries for name and number have been entered, if so create account
         if(newName !== '' && newNumber !== 0 && dupAccount === false){
@@ -77,7 +70,10 @@ export const AddAccount = () =>{
 
     return(
         <>
-    
+         <div className = "big-logo">
+            <img src={menuLogo} alt="logo"/>
+
+        </div>
         <div className="aa-form-container">
         
             <h2>Add Account</h2>

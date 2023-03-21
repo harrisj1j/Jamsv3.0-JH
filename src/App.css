@@ -18,14 +18,9 @@
   
 }
 
-.aa-form-container, .addaccount-form {
+.aa-form-container, .addaccount-form, .view-accounts-container, .ledger-container {
   display: flex;
   flex-direction: column;
-}
-
-.view-accounts-container {
-  display: flex;
-  flex-direction: row;
 }
 
 .authdetails {
@@ -55,10 +50,11 @@
 }
 .card {
   padding: 5rem;
-  border: 1px solid #B4FEE7;
-  background: transparent;
+ 
+  background: #A16AE8;
   border-radius: 10px;
   margin: 0.5rem;
+  color: white;
   box-shadow: 3px 5px 5px grey;
   
 }
