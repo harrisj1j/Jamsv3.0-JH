@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { auth } from './firebase';
 import { NavLink, useNavigate } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { collection, getDoc, doc} from "firebase/firestore"
+import {db} from './firestore';
 
 
 //check whether user is signed in or not and which user it is
@@ -10,6 +12,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 export const AuthDetails = () => {
     const [authUser, setAuthuser] = useState(null);
     const navigate = useNavigate();
+    const [firstname, setFName] = useState("")
+    const [lastname, setLName] = useState("")
+    const usersCollectionRef = collection(db, 'users');
 
     useEffect(() => {
         const listen = onAuthStateChanged(auth, (user) => {
@@ -23,10 +28,12 @@ export const AuthDetails = () => {
         return () => {
             listen();
         }
-    
-    
 
     }, []);
+
+   
+
+    
 
         const userSignOut = () => {
             signOut(auth).then(() => {

@@ -80,8 +80,14 @@ export const AddAccount = () =>{
             <form className="addaccount-form" > 
                 <input placeholder="Name..." onChange={(event) => {setNewName(event.target.value)}} />
                 <input type="number" placeholder="Number..."  onChange={(event) => {accntnumChk(event.target.value)}}  />
-                <input placeholder="category..." onChange={(event) => {setNewCategory(event.target.value)}} />
-     
+                <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)}>
+                    <option value = 'default'></option>    
+                    <option value="asset">asset</option>
+                    <option value="liability">liability</option>
+                    <option value="expense">expense</option>
+                    <option value="equity">equity</option>
+                </select>
+    
                 <input type="credit" placeholder="credit amount..." onChange={(event) => {setNewCredit(event.target.value)}}/>
                 <input type="debit" placeholder="debit amount..." onChange={(event) => {setNewDebit(event.target.value)}}/>
                 <input type="ib" placeholder="initial balance..." onChange={(event) => {setNewIB(event.target.value)}}/>

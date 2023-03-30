@@ -18,7 +18,7 @@
   
 }
 
-.aa-form-container, .addaccount-form, .view-accounts-container, .ledger-container {
+.aa-form-container, .addaccount-form, .view-accounts-container, .ledger-container, .edit-form-container {
   display: flex;
   flex-direction: column;
 }
