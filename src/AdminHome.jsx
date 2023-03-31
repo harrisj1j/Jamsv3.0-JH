@@ -1,9 +1,10 @@
 import { IoIosCreate } from 'react-icons/io';
-import { ImPlus } from 'react-icons/im';
+import { AiOutlineUserAdd } from 'react-icons/ai';
 import { ImEye } from 'react-icons/im';
 import { ImWarning } from 'react-icons/im';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { BiAddToQueue} from 'react-icons/bi';
 
 
 
@@ -15,7 +16,7 @@ export const AdminHome = (props) => {
                 <div className = "card">
                     <h3>Add<br></br> Account</h3>
                     <br></br>
-                    <ImPlus size={50}/>
+                    <BiAddToQueue size={50}/>
                 </div>
             </Link>
             <Link to="viewaccounts">
@@ -38,7 +39,7 @@ export const AdminHome = (props) => {
                 <div className = "card">
                     <h3>Create<br></br> User</h3>
                     <br></br>
-                    <ImPlus size={50}/>
+                    <AiOutlineUserAdd size={50}/>
                 </div>
             </Link>
         </>

@@ -58,6 +58,15 @@
   box-shadow: 3px 5px 5px grey;
   
 }
+.custom-button {
+  padding: 1rem;
+ 
+  background: #603f8b;
+  border-radius: 3px;
+  margin: 0.5rem;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+}
 label {
   text-align: left;
   padding: 0.25rem 0;
