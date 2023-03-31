@@ -59,8 +59,16 @@
   
 }
 .custom-button {
-  padding: 1rem;
- 
+  padding: .5rem;
+  background: #603f8b;
+  border-radius: 3px;
+  margin-top: 2rem;
+  color: white;
+  box-shadow: 3px 3px 3px grey;
+}
+.custom-button-va {
+  padding: .5rem;
+
   background: #603f8b;
   border-radius: 3px;
   margin: 0.5rem;
@@ -76,7 +84,7 @@ input {
   margin: 0.5rem 0;
   padding: 1rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 5px;
 
 }
 

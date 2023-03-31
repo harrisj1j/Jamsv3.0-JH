@@ -4,6 +4,8 @@ import { collection, getDocs, getDoc, deleteDoc, doc, updateDoc } from "firebase
 import { IoIosCreate } from 'react-icons/io';
 import {Link, createSearchParams, useNavigate} from "react-router-dom"
 import { ImWarning } from 'react-icons/im';
+import { AiFillProfile } from 'react-icons/ai';
+
 import Table from 'react-bootstrap/Table';
 import menuLogo from './img/JAMS_1563X1563.png'
 
@@ -99,7 +101,7 @@ export const ViewAccounts = () =>{
                             <th>Name</th>
                             <th>Category</th>
                             <th>Balance</th>
-                            <th>View</th>
+                            <th>View<br/>Ledger</th>
                             <th>Edit</th>
                             <th>Deactivate</th>
 
@@ -113,14 +115,14 @@ export const ViewAccounts = () =>{
                             <td>{account.category}</td>
                             <td>{numberWithCommas(account.balance)}</td>
                             <td>
-                                <a onClick={()=>{openLedger(account.id)}}><IoIosCreate size={15}/></a>
+                                <button className="custom-button-va" onClick={()=>{openLedger(account.id)}}><AiFillProfile size={25}/></button>
                             </td>
                             <td>
-                                <a onClick={()=>{editAccount(account.id)}}><IoIosCreate size={15}/></a>
+                                <button className="custom-button-va" onClick={()=>{editAccount(account.id)}}><IoIosCreate size={25}/></button>
                             </td>
-                            <td><Link onClick={() => {deactivateAccount(account.id)}} className="va-button">
-                                    <a><ImWarning size={15}/></a>
-                                </Link>
+                            <td><button onClick={() => {deactivateAccount(account.id)}} className="custom-button-va">
+                                    <ImWarning size={25}/>
+                                </button>
                             </td>
                            
                             </tr>
