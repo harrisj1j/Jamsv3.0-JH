@@ -81,7 +81,7 @@ export const AddAccount = () =>{
                 <input placeholder="Name..." onChange={(event) => {setNewName(event.target.value)}} />
                 <input type="number" placeholder="Number..."  onChange={(event) => {accntnumChk(event.target.value)}}  />
                 <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)}>
-                    <option value = 'default'></option>    
+                      
                     <option value="asset">asset</option>
                     <option value="liability">liability</option>
                     <option value="expense">expense</option>

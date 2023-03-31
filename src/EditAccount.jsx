@@ -103,8 +103,9 @@ export function EditAccount(account, seteditbox){
         await updateDoc( accountDoc, newFields)
         
     }
-    const editBalance = async (id, balance, newBalance) => {
+    const editBalance = async (id, balance, calcBalance) => {
         const accountDoc = doc(db, "accounts", id)
+        setNewBalance(calcBalance);
         const newFields = {balance: newBalance}
         await updateDoc( accountDoc, newFields)
         
@@ -210,8 +211,8 @@ export function EditAccount(account, seteditbox){
                         </tbody>
                     </Table>
                     <button onClick={()=> { 
-                                            editBalance(accountID, balance, calcBalance(1, 2, 3))
-                                            alert("balance is "+calcBalance(1, 2, 3))
+                                            editBalance(accountID, balance, calcBalance(newIB, newCredit, newDebit))
+                                            alert("balance is "+newBalance)
                                         }}>Calculate Balance</button>
                     
            
