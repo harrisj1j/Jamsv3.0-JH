@@ -57,7 +57,7 @@ export function EditAccount(account, seteditbox){
     }, []);
 
 
-
+    const [newDateTime, setNewDateTime] = useState(Date)
     const [newName, setNewName] = useState(name)
     const [newNumber, setNewNumber] = useState(number)
     const [newCategory, setNewCategory] = useState(category)
@@ -69,42 +69,42 @@ export function EditAccount(account, seteditbox){
 
     const editName = async (id, name, newName) => {
         const accountDoc = doc(db, "accounts", id)
-        const newFields = {name: newName}
+        const newFields = {name: newName, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Name updated to "+newName)
         
     }
     const editNumber = async (id, number, newNumber) => {
         const accountDoc = doc(db, "accounts", id)
-        const newFields = {number: newNumber}
+        const newFields = {number: newNumber, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Number updated to "+newNumber)
         
     }
     const editCategory = async (id,category, newCategory) => {
         const accountDoc = doc(db, "accounts", id)
-        const newFields = {category: newCategory}
+        const newFields = {category: newCategory, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Category updated to "+newCategory)
         
     }
     const editDebit = async (id, debit, newDebit) => {
         const accountDoc = doc(db, "accounts", id)
-        const newFields = {debit: newDebit}
+        const newFields = {debit: newDebit, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Debit updated to "+newDebit)
         
     }
     const editCredit = async (id, credit, newCredit) => {
         const accountDoc = doc(db, "accounts", id)
-        const newFields = {credit: newCredit}
+        const newFields = {credit: newCredit, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Credit updated to "+newCredit)
         
     }
     const editIB = async (id, initialBalance, newIB) => {
         const accountDoc = doc(db, "accounts", id)
-        const newFields = {initialBalance: newIB}
+        const newFields = {initialBalance: newIB, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Initial balance updated to "+newIB)
     }
@@ -117,7 +117,7 @@ export function EditAccount(account, seteditbox){
     }
     const editDescription = async (id, description, newDescription) => {
         const accountDoc = doc(db, "accounts", id)
-        const newFields = {description: newDescription}
+        const newFields = {description: newDescription, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Description updated to "+newDescription)
         
@@ -223,15 +223,15 @@ export function EditAccount(account, seteditbox){
                                                 
                                                 alert("balance is "+balance+" new balance is "+newBalance)
                                             }
-                                            else if(newIB === 0 || newIB=== NaN || newCredit=== NaN || newCredit === 0 || newDebit === 0 || newDebit ===NaN)
+                                            else if(newIB=== NaN || newCredit=== NaN || newDebit ===NaN)
                                             {
-                                                if(newIB === 0 || NaN){
+                                                if(newIB ===  NaN){
                                                     setNewIB(initialBalance)
                                                 }else 
-                                                if(newCredit ===0 || NaN){
+                                                if(newCredit === NaN){
                                                     setNewCredit(credit)
                                                 }else
-                                                if(newDebit===0 || NaN){
+                                                if(newDebit===NaN){
                                                     setNewDebit(debit)
                                                 }
                                               

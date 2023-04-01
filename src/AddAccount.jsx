@@ -1,15 +1,20 @@
-import { useState, u } from "react";
+import { useState, useEffect } from "react";
 import {db} from './firestore';
 import { collection,  addDoc, query, where, getDocs} from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
-import Dropdown from 'react-bootstrap/Dropdown';
 import menuLogo from './img/JAMS_1563X1563.png'
+import { auth } from './firebase';
+import { onAuthStateChanged} from 'firebase/auth';
+
+
+
 
 
 export const accountsCollectionRef = collection(db,  "accounts");
 
 export const AddAccount = () =>{
 
+    
     const [newName, setNewName] = useState("")
     const [newNumber, setNewNumber] = useState(0)
     const [newCategory, setNewCategory] = useState("")
@@ -17,6 +22,27 @@ export const AddAccount = () =>{
     const [newDebit, setNewDebit] = useState(0)
     const [newIB, setNewIB] = useState(0)
     const [newDescription, setNewDescription] = useState("")
+    const [newDateTime, setNewDateTime] = useState(Date)
+    const [authUser, setAuthuser] = useState(null);
+ 
+
+
+    useEffect(() => {
+        const listen = onAuthStateChanged(auth, (user) => {
+            if(user) {
+                setAuthuser(user) //if user us logged in, set authuser to the logged in user
+            }else{
+                setAuthuser(null);//otherwise authuser is null
+            }
+        });
+
+        return () => {
+            listen();
+        }
+
+    }, []);
+
+    
   
     
     //querying the database for duplicate entries
@@ -54,7 +80,7 @@ export const AddAccount = () =>{
         
         //check to make sure valid entries for name and number have been entered, if so create account
         if(newName !== '' && newNumber !== 0 && dupAccount === false){
-            await addDoc(accountsCollectionRef, {name: newName, number: newNumber, category: newCategory, credit: newCredit, debit: newDebit, initialBalance: newIB, balance: parseFloat(calcBalance(newIB, newCredit, newDebit)), description: newDescription})
+            await addDoc(accountsCollectionRef, {name: newName, number: newNumber, category: newCategory, credit: newCredit, debit: newDebit, initialBalance: newIB, balance: parseFloat(calcBalance(newIB, newCredit, newDebit)), description: newDescription, dateTime: newDateTime, user: authUser.email})
             navigate("/adminhome/viewaccounts");}
         else if(dupAccount === true){
             alert("Account exists")}
@@ -81,7 +107,6 @@ export const AddAccount = () =>{
                 <input placeholder="Name..." onChange={(event) => {setNewName(event.target.value)}} />
                 <input type="number" placeholder="Number..."  onChange={(event) => {accntnumChk(event.target.value)}}  />
                 <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)}>
-                      
                     <option value="asset">asset</option>
                     <option value="liability">liability</option>
                     <option value="expense">expense</option>

@@ -102,6 +102,8 @@ export const ViewAccounts = () =>{
                             <th>Category</th>
                             <th>Balance</th>
                             <th>Description</th>
+                            <th>Created By</th>
+                            <th>Last Updated</th>
                             <th>View<br/>Ledger</th>
                             <th>Edit</th>
                             <th>Deactivate</th>
@@ -116,6 +118,8 @@ export const ViewAccounts = () =>{
                             <td>{account.category}</td>
                             <td>{numberWithCommas(account.balance)}</td>
                             <td>{account.description}</td>
+                            <td>{account.user}</td>
+                            <td>{account.dateTime}</td>
                             <td>
                                 <button className="custom-button-va" onClick={()=>{openLedger(account.id)}}><AiFillProfile size={25}/></button>
                             </td>
