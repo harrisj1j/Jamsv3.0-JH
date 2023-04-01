@@ -87,6 +87,15 @@ input {
   border-radius: 5px;
 
 }
+.input-large{
+  width: 300px;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 5px;
+
+}
+
 
 button {
   border: none;

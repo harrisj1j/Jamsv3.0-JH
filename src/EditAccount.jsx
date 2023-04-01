@@ -71,42 +71,47 @@ export function EditAccount(account, seteditbox){
         const accountDoc = doc(db, "accounts", id)
         const newFields = {name: newName}
         await updateDoc( accountDoc, newFields)
+        alert("Name updated to "+newName)
         
     }
     const editNumber = async (id, number, newNumber) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {number: newNumber}
         await updateDoc( accountDoc, newFields)
+        alert("Number updated to "+newNumber)
         
     }
     const editCategory = async (id,category, newCategory) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {category: newCategory}
         await updateDoc( accountDoc, newFields)
+        alert("Category updated to "+newCategory)
         
     }
     const editDebit = async (id, debit, newDebit) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {debit: newDebit}
         await updateDoc( accountDoc, newFields)
+        alert("Debit updated to "+newDebit)
         
     }
     const editCredit = async (id, credit, newCredit) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {credit: newCredit}
         await updateDoc( accountDoc, newFields)
+        alert("Credit updated to "+newCredit)
         
     }
     const editIB = async (id, initialBalance, newIB) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {initialBalance: newIB}
         await updateDoc( accountDoc, newFields)
-        
+        alert("Initial balance updated to "+newIB)
     }
     const editBalance = async (id, balance, calcBalance) => {
         const accountDoc = doc(db, "accounts", id)
         setNewBalance(calcBalance);
-        const newFields = {balance: newBalance}
+        const newFields = {balance: calcBalance}
         await updateDoc( accountDoc, newFields)
         
     }
@@ -114,6 +119,7 @@ export function EditAccount(account, seteditbox){
         const accountDoc = doc(db, "accounts", id)
         const newFields = {description: newDescription}
         await updateDoc( accountDoc, newFields)
+        alert("Description updated to "+newDescription)
         
     }
     function numberWithCommas(x) {
@@ -124,7 +130,7 @@ export function EditAccount(account, seteditbox){
   //calculate the new balance on the account
     const calcBalance = (newIB, newCredit, newDebit) =>
         {
-            let calc = parseFloat(newIB)+parseFloat(newCredit)+parseFloat(newDebit);
+            let calc = parseFloat(newIB)-parseFloat(newCredit)+parseFloat(newDebit);
             return (calc)
         }
 
@@ -202,7 +208,7 @@ export function EditAccount(account, seteditbox){
                                             editIB(accountID, initialBalance, newIB)
                                         }}><BiUpload size={25}/></button>
                             </td>
-                            <td>{description}<br></br><input type="text" placeholder="edit description" onChange={(event) => {setNewDescription(event.target.value)}}/></td>
+                            <td>{description}<br></br><input className="input-large" type="text" placeholder="edit description" onChange={(event) => {setNewDescription(event.target.value)}}/></td>
                             <td><button className="custom-button" onClick={()=> { 
                                             editDescription(accountID, description, newDescription)
                                         }}><BiUpload size={25}/></button></td>
@@ -210,10 +216,34 @@ export function EditAccount(account, seteditbox){
                         
                         </tbody>
                     </Table>
-                    <button onClick={()=> { 
-                                            editBalance(accountID, balance, calcBalance(newIB, newCredit, newDebit))
-                                            alert("balance is "+newBalance)
-                                        }}>Calculate Balance</button>
+                    <button onClick={()=> { if(newBalance === 0 || newBalance === NaN){
+
+                                                setNewBalance(balance)
+                                         
+                                                
+                                                alert("balance is "+balance+" new balance is "+newBalance)
+                                            }
+                                            else if(newIB === 0 || newIB=== NaN || newCredit=== NaN || newCredit === 0 || newDebit === 0 || newDebit ===NaN)
+                                            {
+                                                if(newIB === 0 || NaN){
+                                                    setNewIB(initialBalance)
+                                                }else 
+                                                if(newCredit ===0 || NaN){
+                                                    setNewCredit(credit)
+                                                }else
+                                                if(newDebit===0 || NaN){
+                                                    setNewDebit(debit)
+                                                }
+                                              
+                                                editBalance(accountID, balance, calcBalance(initialBalance, credit, debit))
+                                            alert("balance is "+calcBalance(initialBalance, credit, debit))
+                                            }
+                                            else{
+                                                editBalance(accountID, balance, calcBalance(initialBalance, credit, debit))
+                                                alert("balance is "+calcBalance(initialBalance, credit, debit))
+                                            }
+                                            
+                                        }}>Calculate New Balance</button>
                     
            
             
