@@ -93,7 +93,7 @@ export const ViewAccounts = () =>{
             
                     <>
                     
-                    <h2>Chart of Accounts</h2>
+                    <h1>Chart of Accounts</h1>
                     <Table responsive striped bordered hover>
                         <thead>
                             <tr>

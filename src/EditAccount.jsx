@@ -137,7 +137,7 @@ export function EditAccount(account, seteditbox){
     return (
         
         <div className="edit-form-container">
-            <h2>Edit Account</h2>
+            <h1>Edit Account</h1>
             
             <Table responsive striped bordered hover>
                         <thead>

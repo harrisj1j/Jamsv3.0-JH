@@ -7,6 +7,7 @@ import Table from 'react-bootstrap/Table';
 import { collection, query, where } from "firebase/firestore";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import {ChildrenList} from "./ChildrenList"
+import {CreateJE} from "./CreateJE"
 const jeRef = collection(db, "journalEntries");
 
 
@@ -71,7 +72,12 @@ export const Ledger = () => {
 
         getAccount(id);
     }, []);
+     //function for displaying cash amounts with commas where appropriate. Math.round...tofixed(2) makes it display two decimal points
+     function numberWithCommas(x) {
 
+        let num = x;
+        return ((Math.round(x * 100) / 100).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
  
 
    
@@ -80,7 +86,9 @@ export const Ledger = () => {
     return (
         <>
         <div className ="ledger-container">
-        <h2>Account Ledger</h2>
+        
+        <h1 className="page-title">Account Ledger</h1>
+        <CreateJE path={`accounts/${accountID}/journalEntries`}/>
         <Table responsive striped bordered hover>
             <thead>
                 <tr>
@@ -96,13 +104,12 @@ export const Ledger = () => {
                     <td>{number}</td>
                     <td>{name}</td>
                     <td>{category}</td>
-                    <td>{balance}</td>
+                    <td>{numberWithCommas(balance)}</td>
                     <td>{description}</td>
                 </tr>
             </tbody>
         </Table>
         <h3>Journal Entries</h3>
-
         {loading && "Loading..."}
         <Table  responsive striped bordered hover>
             <thead>
@@ -118,10 +125,9 @@ export const Ledger = () => {
                 
             <ChildrenList path={`accounts/${accountID}/journalEntries`}/>
                       
-                  
-               
             </tbody>
         </Table>
+        
         </div>
         </>
     )

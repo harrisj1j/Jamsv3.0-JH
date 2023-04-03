@@ -13,7 +13,6 @@ export function ChildrenList({path}){
      //function for displaying cash amounts with commas where appropriate. Math.round...tofixed(2) makes it display two decimal points
      function numberWithCommas(x) {
 
-        let num = x;
         return ((Math.round(x * 100) / 100).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
