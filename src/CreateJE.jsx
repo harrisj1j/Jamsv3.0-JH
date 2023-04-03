@@ -1,20 +1,30 @@
 import React, {useRef}from 'react'
-import { doc, setDoc} from "@firebase/firestore";
+import { doc, setDoc, updateDoc} from "@firebase/firestore";
 import {db} from './firestore';
 
-export function CreateJE({path}) {
+export function CreateJE({path, id, calcBalance, calcCredit, calcDebit}) {
 
 const number = useRef();
 const debit = useRef();
 const credit = useRef();
 const description = useRef();
+const newDateTime = Date
+
+
+const editBalance = async (id, newBalance, newCredit, newDebit) => {
+    const accountDoc = doc(db, "accounts", id)
+    const newFields = {balance: newBalance, credit: newCredit, debit: newDebit}
+    await updateDoc( accountDoc, newFields)
+    
+}
 
     async function handeSubmit(e) {
         e.preventDefault();
 
         const docRef=doc(db, path, number.current.value);
-        await setDoc(docRef, {jeNumber: number.current.value, debit: debit.current.value, credit: credit.current.value, description: description.current.value});
-
+        await setDoc(docRef, {jeNumber: number.current.value, debit: debit.current.value, credit: credit.current.value, description: description.current.value, date: newDateTime});
+        
+        editBalance(id, calcBalance, calcCredit, calcDebit)
         e.target.reset();
     }
 

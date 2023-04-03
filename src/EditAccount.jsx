@@ -38,13 +38,13 @@ export function EditAccount(account, seteditbox){
             const docSnap = await getDoc(accountDoc);
             const data = docSnap.data();
             const name = data.name;
-            const number = data.number;
+            const number = parseInt(data.number);
             const category = data.category;
-            const credit = data.credit;
-            const debit = data.debit;
-            const initialBalance = data.initialBalance;
+            const credit = parseFloat(data.credit);
+            const debit = parseFloat(data.debit);
+            const initialBalance = parseFloat(data.initialBalance);
             const description = data.description;
-            const balance = data.balance;
+            const balance = parseFloat(data.balance);
             setName(name);
             setNumber(number);
             setCategory(category);
@@ -69,55 +69,56 @@ export function EditAccount(account, seteditbox){
     const [newBalance, setNewBalance] = useState(balance)
     const [newDescription, setNewDescription] = useState(description)
 
-    const editName = async (id, name, newName) => {
+    const editName = async (id, newName) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {name: newName, dateTime: newDateTime}
+        
         await updateDoc( accountDoc, newFields)
         alert("Name updated to "+newName)
         
     }
-    const editNumber = async (id, number, newNumber) => {
+    const editNumber = async (id, newNumber) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {number: newNumber, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Number updated to "+newNumber)
         
     }
-    const editCategory = async (id,category, newCategory) => {
+    const editCategory = async (id, newCategory) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {category: newCategory, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Category updated to "+newCategory)
         
     }
-    const editDebit = async (id, debit, newDebit) => {
+    const editDebit = async (id, newDebit) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {debit: newDebit, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Debit updated to "+newDebit)
         
     }
-    const editCredit = async (id, credit, newCredit) => {
+    const editCredit = async (id, newCredit) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {credit: newCredit, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Credit updated to "+newCredit)
         
     }
-    const editIB = async (id, initialBalance, newIB) => {
+    const editIB = async (id, newIB) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {initialBalance: newIB, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
         alert("Initial balance updated to "+newIB)
     }
-    const editBalance = async (id, balance, calcBalance) => {
+    const editBalance = async (id, calcBalance) => {
         const accountDoc = doc(db, "accounts", id)
         setNewBalance(calcBalance);
         const newFields = {balance: calcBalance}
         await updateDoc( accountDoc, newFields)
         
     }
-    const editDescription = async (id, description, newDescription) => {
+    const editDescription = async (id, newDescription) => {
         const accountDoc = doc(db, "accounts", id)
         const newFields = {description: newDescription, dateTime: newDateTime}
         await updateDoc( accountDoc, newFields)
@@ -159,11 +160,11 @@ export function EditAccount(account, seteditbox){
                             <tr>
                             <td>{number} <br></br><input type="number" placeholder="edit number" onChange={(event) => {setNewNumber(event.target.value)}} /></td>
                             <td><button className="custom-button" onClick={()=> { 
-                                            editNumber(accountID, number, newNumber)
+                                            editNumber(accountID, newNumber)
                                         }}><BiUpload size={25}/></button></td>
                             <td>{name} <br></br><input type ="text" placeholder="edit name" onChange={(event) => {setNewName(event.target.value)}} /></td>
                             <td><button className="custom-button" onClick={()=> { 
-                                            editName(accountID, name, newName)
+                                            editName(accountID, newName)
                                         }}><BiUpload size={25}/></button></td>
                             <td>{category}<br/><select value={newCategory} onChange={(e) => setNewCategory(e.target.value)}>
                                       
@@ -174,7 +175,7 @@ export function EditAccount(account, seteditbox){
                                 </select>
                             </td>
                             <td><button className="custom-button" onClick={()=> { 
-                                            editCategory(accountID, category, newCategory)
+                                            editCategory(accountID, newCategory)
                                         }}><BiUpload size={25}/></button></td>
                             <td>{numberWithCommas(credit)} <br></br> <input type="number" placeholder="edit credit" onChange={(event) => {setNewCredit(event.target.value)}}/></td>
                             <td><button className="custom-button" onClick={()=> { 
@@ -202,38 +203,38 @@ export function EditAccount(account, seteditbox){
                             </Link></td>
                             <td>
                             <button className="custom-button"  onClick={()=> { 
-                                            editDebit(accountID, debit, newDebit)
+                                            editDebit(accountID, newDebit)
                                         }}><BiUpload size={25}/></button>
                             </td>
                             <td>{numberWithCommas(initialBalance)} <br></br><input type="text" placeholder="edit initial balance" onChange={(event) => {setNewIB(event.target.value)}}/></td>
                             <td><button className="custom-button"  onClick={()=> { 
-                                            editIB(accountID, initialBalance, newIB)
+                                            editIB(accountID, newIB)
                                         }}><BiUpload size={25}/></button>
                             </td>
                             <td>{description}<br></br><input className="input-large" type="text" placeholder="edit description" onChange={(event) => {setNewDescription(event.target.value)}}/></td>
                             <td><button className="custom-button" onClick={()=> { 
-                                            editDescription(accountID, description, newDescription)
+                                            editDescription(accountID, newDescription)
                                         }}><BiUpload size={25}/></button></td>
                             </tr>
                         
                         </tbody>
                     </Table>
-                    <button className="custom-button-calc" onClick={()=> { if(newBalance === 0 || newBalance === NaN){
+                    <button className="custom-button-calc" onClick={()=> { if(newBalance === NaN){
 
                                                 setNewBalance(balance)
                                          
                                                 
                                                 alert("balance is "+balance+" new balance is "+newBalance)
                                             }
-                                            else if(newIB=== NaN || newCredit=== NaN || newDebit ===NaN)
+                                            else if(isNaN(newIB) || isNaN(newCredit) || isNaN(newDebit))
                                             {
-                                                if(newIB ===  NaN){
+                                                if(isNaN(newIB)){
                                                     setNewIB(initialBalance)
                                                 }else 
-                                                if(newCredit === NaN){
+                                                if(isNaN(newCredit)){
                                                     setNewCredit(credit)
                                                 }else
-                                                if(newDebit===NaN){
+                                                if(isNaN(newDebit)){
                                                     setNewDebit(debit)
                                                 }
                                               

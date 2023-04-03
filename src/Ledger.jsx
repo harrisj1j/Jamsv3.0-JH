@@ -2,13 +2,13 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import {db} from './firestore';
-import {doc, getDoc, getDocs} from "firebase/firestore"
+import {doc, getDoc, getDocs, updateDoc} from "firebase/firestore"
 import Table from 'react-bootstrap/Table';
 import { collection, query, where } from "firebase/firestore";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import {ChildrenList} from "./ChildrenList"
 import {CreateJE} from "./CreateJE"
-const jeRef = collection(db, "journalEntries");
+
 
 
 
@@ -16,6 +16,13 @@ const jeRef = collection(db, "journalEntries");
 
 
 export const Ledger = () => {
+
+      // Start the fetch operation as soon as
+    // the page loads
+    window.addEventListener('load', () => {
+        Fetchdata();
+      });
+ 
    
     //get data from view accounts screen
     const [searchparams] = useSearchParams();
@@ -39,8 +46,12 @@ export const Ledger = () => {
     const [jeDebit, setJEDebit] = useState(0);
     const [jeDescription, setJEDescription] = useState("")
     const [jeDate, setJEDate] = useState(Date);
+    const [newCredit, setNewCredit] = useState(credit)
+    const [newDebit, setNewDebit] = useState(debit)
+    const [newBalance, setNewBalance] = useState(balance)
 
 
+    
     
     
 
@@ -49,7 +60,6 @@ export const Ledger = () => {
         let id = accountID
         const getAccount =  async (id) => {
             const accountDoc = doc(db, "accounts", id);
-          
             const docSnap = await getDoc(accountDoc);
             const data = docSnap.data();
             const name = data.name;
@@ -66,29 +76,59 @@ export const Ledger = () => {
             setDebit(debit);
             setBalance(balance)
             setDescription(description);
-            
            
         }
 
         getAccount(id);
+        
     }, []);
+
+    const [info , setInfo] = useState([]);
+ 
+  
+
+    // Fetch debits and credits from the journal entries
+    const Fetchdata = async ()=>{
+        let debitSum = 0;
+        let creditSum = 0;
+
+        const querySnapshot = await getDocs(collection(db, "accounts", accountID, "journalEntries"));
+                querySnapshot.forEach((doc) => {
+                //loop through the journal entries
+                
+                console.log(doc.id, " => ", doc.data());
+
+                //sum up the debits and the credits from each journal entry
+                var data = doc.data();
+                debitSum += parseFloat(data.debit);
+                creditSum += parseFloat(data.credit);
+                
+                console.log(debitSum)
+                });
+            
+         
+        // the sum of the credits is subtracted from the sum of the credits and set as the new balance
+        setDebit(debitSum);
+        setCredit(creditSum);
+        setBalance(debitSum-creditSum);
+    }
+    
+
+   
      //function for displaying cash amounts with commas where appropriate. Math.round...tofixed(2) makes it display two decimal points
      function numberWithCommas(x) {
 
-        let num = x;
         return ((Math.round(x * 100) / 100).toFixed(2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
- 
 
-   
- 
+  
  
     return (
         <>
         <div className ="ledger-container">
         
         <h1 className="page-title">Account Ledger</h1>
-        <CreateJE path={`accounts/${accountID}/journalEntries`}/>
+        <CreateJE path={`accounts/${accountID}/journalEntries`} id={accountID} calcBalance={balance} calcCredit={credit} calcDebit={debit}/>
         <Table responsive striped bordered hover>
             <thead>
                 <tr>
