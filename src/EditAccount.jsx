@@ -7,6 +7,8 @@ import Table from 'react-bootstrap/Table';
 import menuLogo from './img/JAMS_1563X1563.png'
 import { BiUpload } from 'react-icons/bi';
 
+import { BsCalculatorFill } from 'react-icons/bs';
+
 
 
 
@@ -216,7 +218,7 @@ export function EditAccount(account, seteditbox){
                         
                         </tbody>
                     </Table>
-                    <button onClick={()=> { if(newBalance === 0 || newBalance === NaN){
+                    <button className="custom-button-calc" onClick={()=> { if(newBalance === 0 || newBalance === NaN){
 
                                                 setNewBalance(balance)
                                          
@@ -243,7 +245,7 @@ export function EditAccount(account, seteditbox){
                                                 alert("balance is "+calcBalance(initialBalance, credit, debit))
                                             }
                                             
-                                        }}>Calculate New Balance</button>
+                                        }}>Calculate New Balance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BsCalculatorFill size={25}/></button>
                     
            
             

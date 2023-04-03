@@ -59,11 +59,31 @@
   
 }
 .custom-button {
+  
+  font-size: 1.3rem;
+  font-weight: 600;
   padding: .5rem;
   background: #603f8b;
   border-radius: 3px;
   margin-top: 2rem;
-  color: white;
+  color:#b4fee7;
+  box-shadow: 3px 3px 3px grey;
+}
+
+.custom-button-calc {
+  
+  align-self: center;
+  width:fit-content;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding-top: 1.5rem;
+  padding-right: 3rem;
+  padding-bottom: 1rem;
+  padding-left: 3rem;
+  background: #603f8b;
+  border-radius: 3px;
+  margin-top: 1rem;
+  color: #b4fee7;
   box-shadow: 3px 3px 3px grey;
 }
 .custom-button-va {
@@ -72,7 +92,7 @@
   background: #603f8b;
   border-radius: 3px;
   margin: 0.5rem;
-  color: white;
+  color: #b4fee7;
   box-shadow: 3px 3px 3px grey;
 }
 label {
