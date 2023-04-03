@@ -46,7 +46,7 @@ export const Login = (props) =>{
                 <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="username (your email)" id="email" name="email" />
                 <label htmlFor="password">password</label>
                 <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="******" id="password" name="password" />
-                <button type="submit" >Log In</button>    
+                <button className="custom-button" type="submit" >Log In</button>    
             </form>
             {/* switch to password form*/}
             <Link to="/forgotpass">

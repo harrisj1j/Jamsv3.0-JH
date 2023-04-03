@@ -118,7 +118,7 @@ export const AddAccount = () =>{
                 <input type="ib" placeholder="initial balance..." onChange={(event) => {setNewIB(event.target.value)}}/>
                 <input type="description" placeholder="description" onChange={(event) => {setNewDescription(event.target.value)}}/>
             </form>
-            <button onClick={()=> { 
+            <button className="custom-button" onClick={()=> { 
                 createAccount()
                 }
                 }>Add Account</button>

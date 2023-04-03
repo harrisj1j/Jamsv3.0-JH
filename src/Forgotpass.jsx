@@ -43,7 +43,7 @@ export const Forgotpass = (props) =>{
                     <button type="submit">Recover Password</button>
                     <label htmlFor="password">New Password</label>
                 <input type="password" placeholder="New Password" id="password" name="password" />
-                <button type="submit">Recover Password</button>
+                <button className="custom-button" type="submit">Recover Password</button>
                 </form>
                 {/* switch to login form*/}
                 <Link to="/">

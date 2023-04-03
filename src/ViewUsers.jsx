@@ -28,7 +28,7 @@ export const ViewUsers = () =>{
     
 
 
-    const deactivateuser = async (id) => {
+    const deactivateUser = async (id) => {
         const userDoc = doc(db, "users", id);
         await deleteDoc(userDoc);
         alert("user deactivated. Refresh to view changes");
@@ -83,6 +83,7 @@ export const ViewUsers = () =>{
         //Display user info
         <div className="view-users-container"> 
 
+            <h1>Users</h1>
             <Table responsive striped bordered hover>
                 <thead>
                     <tr>
@@ -99,108 +100,18 @@ export const ViewUsers = () =>{
                     <td>{user.username} </td>
                     <td>{user.firstName} {user.lastName}</td>
                     <td>{user.role}</td>
-                    <td><Link onClick={() => {}} className="va-button">
-                            <a><IoIosCreate size={15}/></a>
-                        </Link>
+                   
+                    <td>
+                        <button className="custom-button-va" ><IoIosCreate size={25}/></button>
                     </td>
-                    <td><Link onClick={() => {}} className="va-button">
-                            <a><ImWarning size={15}/></a>
-                        </Link>
+                    <td>
+                        <button className="custom-button-va" onClick={()=>{deactivateUser(user.id)}}><ImWarning size={25}/></button>
                     </td>
-                
                     </tr>
                     ))}
                 </tbody>
             </Table>
-            {/*}
-            {users.map((user) => { 
-                return (
-                    <>
-                    <div className="view-users-row">
-                        <h3>First Name</h3>
-                        <div id="name" type="name" name="name"><p>{user.firstName}</p></div>
-                        <Link onClick={() => {seteditbox(true)}} className="va-button">
-                            <a><IoIosCreate size={30}/></a>
-                        </Link>
-
-                        {/**when edit button is clicked, edit box appears to edit field 
-                        {editbox === true && <div>
-                            <p>edit first name</p>
-                            <input placeholder="Name..." onChange={(event) => {setNewFName(event.target.value)}} />
-                            <button onClick={()=> { 
-                                editFName(user.id, user.firstName, newFName)
-                                seteditbox(false)
-                            }}>update</button>
-                        </div>}
-                        
-
-                        <h3>Last Name</h3>
-                        <div><p>{user.lastName}</p></div>
-                        <Link onClick={() => {seteditbox(true)}} className="va-button">
-                            <a><IoIosCreate size={30}/></a>
-                        </Link>
-
-                        {/**when edit button is clicked, edit box appears to edit field 
-                        {editbox === true && <div>
-                            <p>edit last namer</p>
-                            <input  onChange={(event) => {setNewLName(event.target.value)}} />
-                            <button onClick={()=> { 
-                                editLName(user.id, user.lastName, newLName)
-                                seteditbox(false)
-                            }}>update</button>
-                        </div>}
-                        <h3>Birthday</h3>
-                        <div><p>{(user.birthday)}</p></div>
-                        <Link onClick={() => {seteditbox(true)}} className="va-button">
-                            <a><IoIosCreate size={30}/></a>
-                        </Link>
-
-                        {/**when edit button is clicked, edit box appears to edit field 
-                        {editbox === true && <div>
-                            <p>edit birthday</p>
-                            <input  onChange={(event) => {setNewBDay(event.target.value)}} />
-                            <button onClick={()=> { 
-                                editBDay(user.id, user.credit, newBDay)
-                                seteditbox(false)
-                            }}>update</button>
-                        </div>}
-
-                        <h3>Role </h3>
-                        <div><p>{(user.role)}</p></div>
-                        <Link onClick={() => {seteditbox(true)}} className="va-button">
-                            <a><IoIosCreate size={30}/></a>
-                        </Link>
-
-                        {/**when edit button is clicked, edit box appears to edit field 
-                        {editbox === true && <div>
-                            <p>edit role</p>
-                            <input  onChange={(event) => {setNewRole(event.target.value)}} />
-                            <button onClick={()=> { 
-                                editRole(user.id, user.role, newRole)
-                                seteditbox(false)
-                            }}>update</button>
-                        </div>}
-                        
-
-                        
-
-                        <Link onClick={() => {deactivateuser(user.id)}} className="va-button">
-                            <a><h4>deactivate</h4><ImWarning size={30}/></a>
-                        </Link>
-                        <br />
-
-
-                        
-                        
-                        
-                        
-                    </div>
-                    <br />
-                    </>
-
-                    )
-                    
-                })} */}
+            
         </div>
 
     )

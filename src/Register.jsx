@@ -144,7 +144,7 @@ export const Register = () =>{
 
                         {MustContainData.map(data => <MustContainElement data={data} />)}
                     </div>
-                    <button type="submit" id = "submitReg" >Register New User</button>
+                    <button className="custom-button" type="submit" id = "submitReg" >Register New User</button>
                     
 
                 </form>
