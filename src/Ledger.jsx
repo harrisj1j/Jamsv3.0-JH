@@ -32,23 +32,15 @@ export const Ledger = () => {
 
     const query = collection(db, "accounts")
     const [docs, loading, error] = useCollectionData (query);
-    console.log(docs);
 
     const [name, setName] = useState("")
     const [number, setNumber] = useState(0)
     const [category, setCategory] = useState("")
     const [credit, setCredit] = useState(0)
     const [debit, setDebit] = useState(0)
-    const [balance, setBalance] = useState("")
+    const [balance, setBalance] = useState(0)
     const [description, setDescription] = useState("")
-    const [jeNumber, setJENumber] = useState(0);
-    const [jeCredit, setJECredit] = useState(0);
-    const [jeDebit, setJEDebit] = useState(0);
-    const [jeDescription, setJEDescription] = useState("")
-    const [jeDate, setJEDate] = useState(Date);
-    const [newCredit, setNewCredit] = useState(credit)
-    const [newDebit, setNewDebit] = useState(debit)
-    const [newBalance, setNewBalance] = useState(balance)
+
 
 
     
@@ -81,10 +73,7 @@ export const Ledger = () => {
 
         getAccount(id);
         
-    }, []);
-
-    const [info , setInfo] = useState([]);
- 
+    }, []); 
   
 
     // Fetch debits and credits from the journal entries
@@ -104,6 +93,7 @@ export const Ledger = () => {
                 creditSum += parseFloat(data.credit);
                 
                 console.log(debitSum)
+                
                 });
             
          
@@ -111,6 +101,7 @@ export const Ledger = () => {
         setDebit(debitSum);
         setCredit(creditSum);
         setBalance(debitSum-creditSum);
+        
     }
     
 

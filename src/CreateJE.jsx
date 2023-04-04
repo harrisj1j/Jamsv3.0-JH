@@ -8,12 +8,11 @@ const number = useRef();
 const debit = useRef();
 const credit = useRef();
 const description = useRef();
-const newDateTime = Date
 
 
 const editBalance = async (id, newBalance, newCredit, newDebit) => {
     const accountDoc = doc(db, "accounts", id)
-    const newFields = {balance: newBalance, credit: newCredit, debit: newDebit}
+    const newFields = {balance: parseFloat(newBalance), credit: parseFloat(newCredit), debit: parseFloat(newDebit)}
     await updateDoc( accountDoc, newFields)
     
 }
@@ -22,9 +21,9 @@ const editBalance = async (id, newBalance, newCredit, newDebit) => {
         e.preventDefault();
 
         const docRef=doc(db, path, number.current.value);
-        await setDoc(docRef, {jeNumber: number.current.value, debit: debit.current.value, credit: credit.current.value, description: description.current.value, date: newDateTime});
+        await setDoc(docRef, {jeNumber: parseInt(number.current.value), debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value});
         
-        editBalance(id, calcBalance, calcCredit, calcDebit)
+        editBalance(id, parseFloat(calcBalance)+parseFloat(debit.current.value), parseFloat(calcCredit)+parseFloat(credit.current.value), parseFloat(calcDebit)+parseFloat(debit.current.value))
         e.target.reset();
     }
 
