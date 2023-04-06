@@ -80,7 +80,7 @@ export const AddAccount = () =>{
         
         //check to make sure valid entries for name and number have been entered, if so create account
         if(newName !== '' && newNumber !== 0 && dupAccount === false){
-            await addDoc(accountsCollectionRef, {name: newName, number: newNumber, category: newCategory, credit: newCredit, debit: newDebit, initialBalance: newIB, balance: parseFloat(calcBalance(newIB, newCredit, newDebit)), description: newDescription, dateTime: newDateTime, user: authUser.email})
+            await addDoc(accountsCollectionRef, {name: newName, number: newNumber, category: newCategory, credit: parseFloat(newCredit), debit: parseFloat(newDebit), initialBalance: newIB, balance: parseFloat(calcBalance(newIB, newCredit, newDebit)), description: newDescription, dateTime: newDateTime, user: authUser.email})
             navigate("/adminhome/viewaccounts");}
         else if(dupAccount === true){
             alert("Account exists")}

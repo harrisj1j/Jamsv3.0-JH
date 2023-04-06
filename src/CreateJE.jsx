@@ -1,6 +1,14 @@
-import React, {useRef}from 'react'
+import React, {useRef, useState}from 'react'
 import { doc, setDoc, updateDoc} from "@firebase/firestore";
 import {db} from './firestore';
+import {storage} from "./firebase.js"
+
+import {
+    ref,
+    uploadBytesResumable,
+    getDownloadURL
+}from "firebase/storage"
+
 
 export function CreateJE({path, id, calcBalance, calcCredit, calcDebit}) {
 
@@ -8,22 +16,59 @@ const number = useRef();
 const debit = useRef();
 const credit = useRef();
 const description = useRef();
+const [file, setFile]= useState("")
+const [percent, setPercent] = useState(0);
+const files = [];
 
 
+//takes the summed credits and debits from the account ledger and updates the account balance, credit, and debit
 const editBalance = async (id, newBalance, newCredit, newDebit) => {
     const accountDoc = doc(db, "accounts", id)
     const newFields = {balance: parseFloat(newBalance), credit: parseFloat(newCredit), debit: parseFloat(newDebit)}
     await updateDoc( accountDoc, newFields)
     
 }
+//////////////////document upload functionality////////////////////
 
+function handleChange(event){
+    setFile(event.target.files[0]);
+}
+function handleUpload(){
+    if(!file){
+        alert("Please choose a file!")
+    }
+    const storageRef = ref(storage, `/files/${file.name}`)
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    files.push(file.name)
+
+    uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+            const percent = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            //update progress
+            setPercent(percent);
+        },
+        (err)=>console.log(err),
+        ()=> {
+            //download url
+            getDownloadURL(uploadTask.snapshot.ref).then((url)=>{
+                console.log(url);
+            })
+        }
+    )
+}
+
+
+//when add button is clicked, new journal entry is created and the account balance is updated
     async function handeSubmit(e) {
         e.preventDefault();
-
+        console.log(calcBalance)
         const docRef=doc(db, path, number.current.value);
-        await setDoc(docRef, {jeNumber: parseInt(number.current.value), debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value});
+        await setDoc(docRef, {jeNumber: parseInt(number.current.value), debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value, files: files});
         
-        editBalance(id, parseFloat(calcBalance)+parseFloat(debit.current.value), parseFloat(calcCredit)+parseFloat(credit.current.value), parseFloat(calcDebit)+parseFloat(debit.current.value))
+        editBalance(id, parseFloat(calcBalance), parseFloat(calcCredit), parseFloat(calcDebit))
         e.target.reset();
     }
 
@@ -43,7 +88,10 @@ const editBalance = async (id, newBalance, newCredit, newDebit) => {
           
                 <label htmlFor="debit">Description</label>
                 <input ref={description}/>
-                <button className="custom-button" type="submit">Add</button>
+                <input type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
+                <button className="custom-button" onClick={handleUpload} >upload</button>
+                <p>{percent} % done</p>
+                <button className="custom-button" type="submit" >Add</button>
            </div>
             
             

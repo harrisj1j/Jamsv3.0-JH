@@ -179,7 +179,7 @@ export function EditAccount(account, seteditbox){
                                         }}><BiUpload size={25}/></button></td>
                             <td>{numberWithCommas(credit)} <br></br> <input type="number" placeholder="edit credit" onChange={(event) => {setNewCredit(event.target.value)}}/></td>
                             <td><button className="custom-button" onClick={()=> { 
-                                            editCredit(accountID, credit, newCredit)
+                                            editCredit(accountID, newCredit)
                                         }}><BiUpload size={25}/></button></td>
                             </tr>
                         
@@ -238,11 +238,11 @@ export function EditAccount(account, seteditbox){
                                                     setNewDebit(debit)
                                                 }
                                               
-                                                editBalance(accountID, balance, calcBalance(initialBalance, credit, debit))
+                                                editBalance(accountID, calcBalance(initialBalance, credit, debit))
                                             alert("balance is "+calcBalance(initialBalance, credit, debit))
                                             }
                                             else{
-                                                editBalance(accountID, balance, calcBalance(initialBalance, credit, debit))
+                                                editBalance(accountID, calcBalance(initialBalance, credit, debit))
                                                 alert("balance is "+calcBalance(initialBalance, credit, debit))
                                             }
                                             

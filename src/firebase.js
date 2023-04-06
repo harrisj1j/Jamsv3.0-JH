@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {getFirestore, collection} from "@firebase/firestore"
+import { getStorage } from "firebase/storage";
+
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -31,6 +33,7 @@ export const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
+export const storage = getStorage(app);
 export const usersCollectionRef = collection(db,'users');
 export const addDoc = firebase.firestore.addDoc;
 export const createUserWithEmailAndPassword = auth.createUserWithEmailAndPassword;
