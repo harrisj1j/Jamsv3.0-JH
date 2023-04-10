@@ -8,6 +8,9 @@ import {Navbar} from './Navbar';
 import {Root} from './root';
 import { Forgotpass } from './Forgotpass';
 import {AdminHome} from './AdminHome';
+import {ManagerHome} from './ManagerHome';
+import {AccountantHome} from './AccountantHome';
+
 import ProtectedRoutes from './ProtectedRoutes';
 import {AddAccount} from './AddAccount'
 import {EditAccount} from './EditAccount'
@@ -45,6 +48,14 @@ const router = createBrowserRouter([
   {
     path: "adminhome",
     element: <AdminHome />
+  },
+   {
+    path: "managerhome",
+    element: <ManagerHome />
+  },
+   {
+    path: "accountanthome",
+    element: <AccountantHome />
   },
   {
     path: "adminhome/addaccount",

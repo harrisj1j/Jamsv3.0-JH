@@ -5,6 +5,7 @@ import {Forgotpass} from './Forgotpass';
 import {Link} from "react-router-dom"
 import menuLogo from './img/JAMS_1563X1563.png'
 import { useNavigate } from "react-router-dom";
+import { usersCollectionRef } from "./firebase";
 
 export const Login = (props) =>{
     const [email, setEmail] = useState('');
@@ -18,8 +19,9 @@ export const Login = (props) =>{
   }
   
     {/* event handler for form entry*/}
+
     
-    const logIn = (e) => {
+        const logIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -31,6 +33,30 @@ export const Login = (props) =>{
         })
         
     }
+    
+ /*   Login that chooses the splash page you see based on your role
+ const logIn = (e) => {
+  e.preventDefault();
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const userId = userCredential.user.uid;
+      
+      usersCollectionRef.child(userId).once("value", (snapshot) => {
+        const userData = snapshot.val();
+        const userRole = userData.role;
+        console.log(`User ${userId} has role ${userRole}`);
+        if (userRole === "admin") {
+          navigate("/adminhome");
+        } else {
+          navigate("/userhome");
+        }
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+*/
 
     //login form
     return(

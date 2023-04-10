@@ -8,9 +8,7 @@ import { auth, app } from "./firebase";
 import menuLogo from './img/JAMS_1563X1563.png'
 import MustContainElement from "./MustContainElement";
 import { Link } from "react-router-dom";
-
-
-
+import bcrypt from 'bcryptjs'
 
 
 
@@ -25,6 +23,7 @@ export const AdminCreateUser = () => {
     const [address, setAddress] = useState('');
     const [dob, setDob] = useState('');
     const [username, setUsername] = useState('');
+   
 
     //password validation 
     const [containsUL, setContainsUL ] = useState(false)
@@ -45,6 +44,12 @@ export const AdminCreateUser = () => {
         ["At least 8 characters", contains8C]
         
     ]
+
+      const hashedPassword = bcrypt.hashSync(password, 10);
+
+
+
+    
     const usersCollectionRef = collection(db, 'users');
     let allUsers = getDocs(usersCollectionRef);
     {/* event handler for registration form*/}
@@ -67,7 +72,7 @@ export const AdminCreateUser = () => {
                 suspensionStart: '',
                 suspensionEnd: '',
                 username: '',
-                password : password,
+                password : hashedPassword,
 
             });
             
