@@ -2,6 +2,11 @@ import React from "react";
 import { collection, query, where } from "firebase/firestore";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import {db} from './firestore';
+import { AiFillFileText } from 'react-icons/ai';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+
+
 
 export function ChildrenList({path}){
 
@@ -26,6 +31,11 @@ export function ChildrenList({path}){
                 <td >{numberWithCommas(doc.credit)}</td>
                 <td >{doc.description}</td>
                 <td>{toString(doc.date)}</td>
+                <td>{doc.files != "" || doc.files != null &&
+
+                        <AiFillFileText size={25}/>
+
+                    }</td>
                 
                 
         </tr>

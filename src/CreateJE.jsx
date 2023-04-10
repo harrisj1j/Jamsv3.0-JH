@@ -1,12 +1,12 @@
 import React, {useRef, useState}from 'react'
 import { doc, setDoc, updateDoc} from "@firebase/firestore";
 import {db} from './firestore';
-import {storage} from "./firebase.js"
+import {storage,} from "./firebase.js"
 
 import {
     ref,
     uploadBytesResumable,
-    getDownloadURL
+    getDownloadURL, 
 }from "firebase/storage"
 
 
@@ -18,7 +18,7 @@ const credit = useRef();
 const description = useRef();
 const [file, setFile]= useState("")
 const [percent, setPercent] = useState(0);
-const files = [];
+const [attachedFile, setAttachedFile] = useState("");
 
 
 //takes the summed credits and debits from the account ledger and updates the account balance, credit, and debit
@@ -34,13 +34,9 @@ function handleChange(event){
     setFile(event.target.files[0]);
 }
 function handleUpload(){
-    if(!file){
-        alert("Please choose a file!")
-    }
+    
     const storageRef = ref(storage, `/files/${file.name}`)
     const uploadTask = uploadBytesResumable(storageRef, file);
-    files.push(file.name)
-
     uploadTask.on(
         "state_changed",
         (snapshot) => {
@@ -55,6 +51,7 @@ function handleUpload(){
             //download url
             getDownloadURL(uploadTask.snapshot.ref).then((url)=>{
                 console.log(url);
+                setAttachedFile("url");
             })
         }
     )
@@ -66,8 +63,9 @@ function handleUpload(){
         e.preventDefault();
         console.log(calcBalance)
         const docRef=doc(db, path, number.current.value);
-        await setDoc(docRef, {jeNumber: parseInt(number.current.value), debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value, files: files});
-        
+        await setDoc(docRef, {jeNumber: parseInt(number.current.value), debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value, files: attachedFile});
+        if(file)
+            {handleUpload();}
         editBalance(id, parseFloat(calcBalance), parseFloat(calcCredit), parseFloat(calcDebit))
         e.target.reset();
     }
@@ -89,7 +87,7 @@ function handleUpload(){
                 <label htmlFor="debit">Description</label>
                 <input ref={description}/>
                 <input type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
-                <button className="custom-button" onClick={handleUpload} >upload</button>
+                
                 <p>{percent} % done</p>
                 <button className="custom-button" type="submit" >Add</button>
            </div>
