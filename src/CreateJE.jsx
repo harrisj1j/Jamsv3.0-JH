@@ -2,6 +2,9 @@ import React, {useRef, useState}from 'react'
 import { doc, setDoc, updateDoc} from "@firebase/firestore";
 import {db} from './firestore';
 import {storage,} from "./firebase.js"
+import {Debits} from "./Debits"
+import {Credits} from "./Credits"
+
 
 import {
     ref,
@@ -13,12 +16,17 @@ import {
 export function CreateJE({path, id, calcBalance, calcCredit, calcDebit}) {
 
 const number = useRef();
-const debit = useRef();
-const credit = useRef();
+const [debits, setDebits] = useState([]);
+const [credits, setCredits] = useState([]);
+const [debitsTotal, setDT] = useState(0);
+const [creditsTotal, setCT] = useState(0);
+const credit = useRef(); 
 const description = useRef();
 const [file, setFile]= useState("")
 const [percent, setPercent] = useState(0);
 const [attachedFile, setAttachedFile] = useState("");
+
+
 
 
 //takes the summed credits and debits from the account ledger and updates the account balance, credit, and debit
@@ -61,9 +69,13 @@ function handleUpload(){
 //when add button is clicked, new journal entry is created and the account balance is updated
     async function handeSubmit(e) {
         e.preventDefault();
-        console.log(calcBalance)
+        
+        setDebits(Debits.debits);
+        setDT(Debits.debitsTotal);
+        setCredits(Credits.credits);
+        setCT(Credits.creditsTotal)
         const docRef=doc(db, path, number.current.value);
-        await setDoc(docRef, {jeNumber: parseInt(number.current.value), debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value, files: attachedFile});
+        await setDoc(docRef, {jeNumber: parseInt(number.current.value),debits: debits, debit: parseFloat(debitsTotal),credits: credits, credit: parseFloat(creditsTotal), description: description.current.value, files: attachedFile});
         if(file)
             {handleUpload();}
         editBalance(id, parseFloat(calcBalance), parseFloat(calcCredit), parseFloat(calcDebit))
@@ -72,25 +84,32 @@ function handleUpload(){
 
     return (
         <>
-        <form onSubmit={handeSubmit}>
+        <form  onSubmit={handeSubmit}>
+        <div className='je-container'>
+        <h3>Add New Journal Entry</h3>
             <div className="je-form-input">
-                <h3>Add New Journal Entry</h3>
-                <label htmlFor="number">Number</label>
-                <input ref={number}/>
-
-                <label htmlFor="debit">Debit</label>
-                <input ref={debit}/>
-           
-                <label htmlFor="credit">Credit</label>
-                <input ref={credit}/>
-          
-                <label htmlFor="debit">Description</label>
-                <input ref={description}/>
-                <input type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
+               
                 
-                <p>{percent} % done</p>
-                <button className="custom-button" type="submit" >Add</button>
+                <Debits/>
+                <Credits />
+                
+           
+                <div className='je-box-2'>
+                    <label htmlFor="description">Description</label>
+                    <input ref={description}/>
+                    <div className='custom-button'>
+                    <p>{percent} % done</p>
+                    <input  type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
+                    </div>
+                   
+                    
+                    
+                    <button className="custom-button" type="submit" >Post Journal Entry</button>
+                </div>
+              
            </div>
+        </div>
+       
             
             
         </form>

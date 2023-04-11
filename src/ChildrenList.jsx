@@ -23,15 +23,15 @@ export function ChildrenList({path}){
 
     return (
        <>
-       {docs?.map((doc)=>(
+       {docs?.map((doc, idx)=>(
         <tr key={Math.random()}>
            
-                <td >{doc.jeNumber}</td>
+                <td >{idx+1}</td>
                 <td >{numberWithCommas(doc.debit)}</td>
                 <td >{numberWithCommas(doc.credit)}</td>
                 <td >{doc.description}</td>
                 <td>{toString(doc.date)}</td>
-                <td>{doc.files != "" || doc.files != null &&
+                <td>{doc.files !== "" || doc.files !== null &&
 
                         <AiFillFileText size={25}/>
 
