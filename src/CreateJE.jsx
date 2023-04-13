@@ -2,8 +2,7 @@ import React, {useRef, useState}from 'react'
 import { doc, setDoc, updateDoc, getCountFromServer, collection} from "@firebase/firestore";
 import {db} from './firestore';
 import {storage,} from "./firebase.js"
-import {Debits} from "./Debits"
-import {Credits} from "./Credits"
+
 
 
 import {
@@ -21,6 +20,7 @@ const [credits, setCredits] = useState([]);
 const [debitsTotal, setDT] = useState(0);
 const [creditsTotal, setCT] = useState(0);
 const credit = useRef(); 
+const debit = useRef();
 const description = useRef();
 const [file, setFile]= useState("")
 const [percent, setPercent] = useState(0);
@@ -77,7 +77,6 @@ function handleUpload(){
         let refidString = refid.toString()
        
 
-        
         const docRef=doc(db, path,  refidString);
         await setDoc(docRef, {jeNumber: refid, debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value, files: attachedFile, dateTime: newDateTime});
         if(file)
@@ -92,19 +91,18 @@ function handleUpload(){
         <div className='je-container'>
         <h3>Add New Journal Entry</h3>
             <div className="je-form-input">
-                <h3>Add New Journal Entry</h3>
-
-                <label htmlFor="debit">Debit</label>
-                <input ref={debit}/>
-           
-                <label htmlFor="credit">Credit</label>
-                <input ref={credit}/>
-          
-                <label htmlFor="debit">Description</label>
-                <input ref={description}/>
-                <input type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
-                
-           
+                <div className="je-box-1">
+                    <div className="debit-form">
+                        <label htmlFor="debit">Debit</label>
+                        <input ref={debit}/>
+                        </div>
+                        
+                        <div className="credit-form">
+                        <label htmlFor="credit">Credit</label>
+                        <input ref={credit}/>
+                    </div>
+                </div>
+             
                 <div className='je-box-2'>
                     <label htmlFor="description">Description</label>
                     <input ref={description}/>

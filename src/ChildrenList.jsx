@@ -23,7 +23,7 @@ export function ChildrenList({path}){
 
     return (
        <>
-       {docs?.map((doc, idx)=>(
+     
        {docs?.map((doc, idx)=>(
         <tr key={Math.random()}>
            
