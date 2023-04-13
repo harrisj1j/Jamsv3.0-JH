@@ -1,5 +1,5 @@
 import React, {useRef, useState}from 'react'
-import { doc, setDoc, updateDoc} from "@firebase/firestore";
+import { doc, setDoc, updateDoc, getCountFromServer, collection} from "@firebase/firestore";
 import {db} from './firestore';
 import {storage,} from "./firebase.js"
 
@@ -18,7 +18,10 @@ const credit = useRef();
 const description = useRef();
 const [file, setFile]= useState("")
 const [percent, setPercent] = useState(0);
-const [attachedFile, setAttachedFile] = useState("");
+const [attachedFile, setAttachedFile] = useState("")
+const [refid, setrefid] = useState('')
+const [newDateTime, setNewDateTime] = useState(Date)
+
 
 
 //takes the summed credits and debits from the account ledger and updates the account balance, credit, and debit
@@ -61,9 +64,16 @@ function handleUpload(){
 //when add button is clicked, new journal entry is created and the account balance is updated
     async function handeSubmit(e) {
         e.preventDefault();
-        console.log(calcBalance)
-        const docRef=doc(db, path, number.current.value);
-        await setDoc(docRef, {jeNumber: parseInt(number.current.value), debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value, files: attachedFile});
+
+        const coll = collection(db, path);
+        const snapshot = await getCountFromServer(coll);
+        setrefid(snapshot.data().count)
+        let refidString = refid.toString()
+       
+
+        
+        const docRef=doc(db, path,  refidString);
+        await setDoc(docRef, {jeNumber: refid, debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value, files: attachedFile, dateTime: newDateTime});
         if(file)
             {handleUpload();}
         editBalance(id, parseFloat(calcBalance), parseFloat(calcCredit), parseFloat(calcDebit))
@@ -75,8 +85,6 @@ function handleUpload(){
         <form onSubmit={handeSubmit}>
             <div className="je-form-input">
                 <h3>Add New Journal Entry</h3>
-                <label htmlFor="number">Number</label>
-                <input ref={number}/>
 
                 <label htmlFor="debit">Debit</label>
                 <input ref={debit}/>
