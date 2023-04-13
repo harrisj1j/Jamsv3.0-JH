@@ -2,6 +2,9 @@ import React, {useRef, useState}from 'react'
 import { doc, setDoc, updateDoc, getCountFromServer, collection} from "@firebase/firestore";
 import {db} from './firestore';
 import {storage,} from "./firebase.js"
+import {Debits} from "./Debits"
+import {Credits} from "./Credits"
+
 
 import {
     ref,
@@ -13,8 +16,11 @@ import {
 export function CreateJE({path, id, calcBalance, calcCredit, calcDebit}) {
 
 const number = useRef();
-const debit = useRef();
-const credit = useRef();
+const [debits, setDebits] = useState([]);
+const [credits, setCredits] = useState([]);
+const [debitsTotal, setDT] = useState(0);
+const [creditsTotal, setCT] = useState(0);
+const credit = useRef(); 
 const description = useRef();
 const [file, setFile]= useState("")
 const [percent, setPercent] = useState(0);
@@ -82,7 +88,9 @@ function handleUpload(){
 
     return (
         <>
-        <form onSubmit={handeSubmit}>
+        <form  onSubmit={handeSubmit}>
+        <div className='je-container'>
+        <h3>Add New Journal Entry</h3>
             <div className="je-form-input">
                 <h3>Add New Journal Entry</h3>
 
@@ -96,9 +104,23 @@ function handleUpload(){
                 <input ref={description}/>
                 <input type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
                 
-                <p>{percent} % done</p>
-                <button className="custom-button" type="submit" >Add</button>
+           
+                <div className='je-box-2'>
+                    <label htmlFor="description">Description</label>
+                    <input ref={description}/>
+                    <div className='custom-button'>
+                    <p>{percent} % done</p>
+                    <input  type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
+                    </div>
+                   
+                    
+                    
+                    <button className="custom-button" type="submit" >Post Journal Entry</button>
+                </div>
+              
            </div>
+        </div>
+       
             
             
         </form>

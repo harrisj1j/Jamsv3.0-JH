@@ -24,9 +24,10 @@ export function ChildrenList({path}){
     return (
        <>
        {docs?.map((doc, idx)=>(
+       {docs?.map((doc, idx)=>(
         <tr key={Math.random()}>
            
-                <td >{idx}</td>
+                <td >{idx+1}</td>
                 <td >{numberWithCommas(doc.debit)}</td>
                 <td >{numberWithCommas(doc.credit)}</td>
                 <td >{doc.description}</td>

@@ -82,8 +82,6 @@ export const Ledger = () => {
                 querySnapshot.forEach((doc) => {
                 //loop through the journal entries
                 
-                console.log(doc.id, " => ", doc.data());
-
                 //sum up the debits and the credits from each journal entry
                 var data = doc.data();
                 debitSum += parseFloat(data.debit);
@@ -102,6 +100,7 @@ export const Ledger = () => {
         setCredit(creditSum);
         setNewBalance(parseFloat(debitSum)-parseFloat(creditSum));
         setjeNum(numSum)
+        
         
     }
     
