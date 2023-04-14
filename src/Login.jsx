@@ -20,7 +20,7 @@ export const Login = (props) =>{
   
     {/* event handler for form entry*/}
 
-    
+    /*
         const logIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
@@ -33,8 +33,9 @@ export const Login = (props) =>{
         })
         
     }
-    
- /*   Login that chooses the splash page you see based on your role
+    */
+   //Login that chooses the splash page you see based on your role
+
  const logIn = (e) => {
   e.preventDefault();
   signInWithEmailAndPassword(auth, email, password)
@@ -48,7 +49,7 @@ export const Login = (props) =>{
         if (userRole === "admin") {
           navigate("/adminhome");
         } else {
-          navigate("/userhome");
+          navigate("/accountanthome");
         }
       });
     })
@@ -56,7 +57,7 @@ export const Login = (props) =>{
       console.log(error);
     });
 };
-*/
+
 
     //login form
     return(
