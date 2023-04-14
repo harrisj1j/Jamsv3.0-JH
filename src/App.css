@@ -75,6 +75,18 @@
   box-shadow: 3px 3px 3px grey;
 }
 
+.custom-button-je {
+  
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: .5rem;
+  background:none;
+  border-radius: 3px;
+  margin-top: 2rem;
+  color:#b4fee7;
+  box-shadow: 3px 3px 3px grey;
+}
+
 .custom-button-calc {
   
   align-self: center;
@@ -99,6 +111,12 @@
   margin: 0.5rem;
   color: #b4fee7;
   box-shadow: 3px 3px 3px grey;
+}
+
+.debit-form{
+  display:flex;
+  flex-direction: row;
+  text-align: left;
 }
 label {
   font-size: 1.3rem;
@@ -132,6 +150,7 @@ input::file-selector-button {
 }
 
 .je-container{
+  width: 100%;
   padding: 2rem;
   background: #A16AE8;
   border-radius: 10px;
