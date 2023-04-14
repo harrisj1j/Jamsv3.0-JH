@@ -100,7 +100,6 @@ export const ViewAccounts = () =>{
                             <th>#</th>
                             <th>Name</th>
                             <th>Category</th>
-                            <th>Balance</th>
                             <th>Description</th>
                             <th>Created By</th>
                             <th>Last Updated</th>
@@ -116,7 +115,6 @@ export const ViewAccounts = () =>{
                             <td>{account.number}</td>
                             <td>{account.name}</td>
                             <td>{account.category}</td>
-                            <td>{numberWithCommas(account.balance)}</td>
                             <td>{account.description}</td>
                             <td>{account.user}</td>
                             <td>{account.dateTime}</td>
