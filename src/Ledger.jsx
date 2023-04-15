@@ -151,6 +151,7 @@ export const Ledger = () => {
                     <th>Description</th>
                     <th>Date</th>
                     <th>Docs</th>
+                    <th>Post Reference</th>
                 </tr>
             </thead>
             <tbody>

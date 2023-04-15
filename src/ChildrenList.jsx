@@ -1,5 +1,6 @@
 import React from "react";
 import { collection, query, where } from "firebase/firestore";
+import { Link } from "react-router-dom";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import {db} from './firestore';
 import { AiFillFileText } from 'react-icons/ai';
@@ -12,6 +13,11 @@ export function ChildrenList({path}){
 
     const query = collection(db, path)
     const [docs, loading, error] = useCollectionData (query);
+
+    const openInNewTab = (url) => {
+        console.log(url);
+        window.open(url);
+      };
     
     
 
@@ -32,11 +38,13 @@ export function ChildrenList({path}){
                 <td >{numberWithCommas(doc.credit)}</td>
                 <td >{doc.description}</td>
                 <td>{doc.dateTime}</td>
-                <td>{doc.files != "" || doc.files != null &&
-
-                        <AiFillFileText size={25}/>
-
-                    }</td>
+                <td> {doc.files.length > 0 &&
+                        <button role="link" className="custom-button-je" onClick={() => openInNewTab(doc.files)}><AiFillFileText size={25}/></button>
+                    }
+                </td>
+                <td><button className="custom-button-je">{doc.pr}</button></td>
+                    
+                    
                 
                 
         </tr>

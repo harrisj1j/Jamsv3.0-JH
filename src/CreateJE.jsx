@@ -9,6 +9,8 @@ import { AiOutlineMinusSquare} from "react-icons/ai";
 import { BiUpload } from 'react-icons/bi';
 import { IoIosCreate } from 'react-icons/io';
 import { v4 as uuidv4 } from 'uuid';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 
 
 
@@ -22,7 +24,8 @@ import {
 
 export function CreateJE({path, id, calcBalance, calcCredit, calcDebit}) {
 
-const number = useRef();
+const ref2 = useRef();
+
 const [debits, setDebits] = useState([]);
 const [credits, setCredits] = useState([]);
 const [debitsTotal, setDT] = useState(0);
@@ -36,7 +39,8 @@ const [attachedFile, setAttachedFile] = useState("")
 const [refid, setrefid] = useState('')
 const [newDateTime, setNewDateTime] = useState(Date)
 const [refidString, setrefidString] = useState("")
-
+const [approved, setApproved] = useState(false);
+const [postReference, setPostReference] = useState("")
 
 useEffect(() => {
 
@@ -49,6 +53,8 @@ useEffect(() => {
         console.log(snapshot.data().count);
         setrefid(snapshot.data().count.toString());
         console.log("the new ref id is ", refid)
+        setPostReference(uuidv4().toString());
+        console.log("The PR is ", postReference)
         
         
        
@@ -57,6 +63,7 @@ useEffect(() => {
     
 }, [refid]); 
 
+  const close = () => ref2.current.close();
 
 //////////// debits form ///////////////
 const [debitInputs, setDebitInput] = useState([
@@ -144,7 +151,8 @@ function handleUpload(){
             //download url
             getDownloadURL(uploadTask.snapshot.ref).then((url)=>{
                 console.log(url);
-                setAttachedFile("url");
+                setAttachedFile(url);
+                console.log("attached file url is ", attachedFile)
             })
         }
     )
@@ -152,21 +160,22 @@ function handleUpload(){
 
 
 //when add button is clicked, new journal entry is created and the account balance is updated
-    async function handeSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
 
-
+        
         const docRef=doc(db, path, refid);
-        await setDoc(docRef, {jeNumber: refid, debit: parseFloat(debit.current.value), credit: parseFloat(credit.current.value), description: description.current.value, files: attachedFile, dateTime: newDateTime});
+        await setDoc(docRef, {jeNumber: refid,  description: description.current.value, files: attachedFile, dateTime: newDateTime, approved: approved, pr: postReference});
         if(file)
             {handleUpload();}
         editBalance(id, parseFloat(calcBalance), parseFloat(calcCredit), parseFloat(calcDebit))
+        alert("Journal Entry Posted")
         e.target.reset();
     }
 
     return (
         <>
-        <form  onSubmit={handeSubmit}>
+        <form id="je-form" onSubmit={handleSubmit}>
         <div className='je-container'>
         <h3>Add New Journal Entry</h3>
             <div className="je-form-input">
@@ -176,7 +185,7 @@ function handleUpload(){
 
                         <Container>
                             
-                            <form > 
+                           
                                 <button className="custom-button" onClick={(e)=>submitDebits(e)}>add debits &nbsp;&nbsp;&nbsp;&nbsp;<IoIosCreate/></button>
                                 { debitInputs.map((debitInput, index)=>(
                                     <div key={index}>
@@ -195,7 +204,7 @@ function handleUpload(){
                                     </div>
                                 ))}
                               
-                            </form>    
+                           
                         </Container>
                         
                     </div>
@@ -203,7 +212,7 @@ function handleUpload(){
 
                         <Container>
                             
-                            <form > 
+                            
                             <button onClick={(e)=>submitCredits(e)} className="custom-button" type="submit">add credits &nbsp;&nbsp;&nbsp;&nbsp;<IoIosCreate/></button>
                                 { creditInputs.map((creditInput, index)=>(
                                     <div key={index}>
@@ -222,7 +231,7 @@ function handleUpload(){
                                     </div>
                                 ))}
                             
-                            </form>    
+                             
                         </Container>
 
                     </div>
@@ -232,16 +241,22 @@ function handleUpload(){
                 <div className='je-box-2'>
                     <label htmlFor="description">Description</label>
                     <input ref={description}/>
+
                     <label htmlFor="file">Attach Doc</label>
-                    
-                    <input  className="custom-button"type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
+                    <input  className="custom-button" type="file" accept=".pdf, .png, .jpg,.docx, .csv, .xls" onChange={handleChange}/>
                     <p>{percent} % done</p>
                    
                    
                 </div>
               
            </div>
-           <button className="custom-button" type="submit" >Post Journal Entry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BiUpload size={25}/></button>
+           <Popup ref={ref2} trigger={open => (   <button type="button" className="custom-button" >Post Journal Entry&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<BiUpload size={25}/></button>  )} position='center center'  arrow={false} modal closeOnDocumentClick>
+            <h4>Post Journal Entry?</h4>
+                <button form="je-form" className="custom-button" type="submit" >Submit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onClick={()=>close()} className="custom-button">Cancel</button>
+            </Popup>;
+
+            
+           
         </div>
        
             
