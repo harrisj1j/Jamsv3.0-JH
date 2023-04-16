@@ -11,10 +11,6 @@ import {CreateJE} from "./CreateJE"
 
 
 
-
-
-
-
 export const Ledger = () => {
 
       // Start the fetch operation as soon as
@@ -24,12 +20,10 @@ export const Ledger = () => {
       });
  
    
-    //get data from view accounts screen
     const [searchparams] = useSearchParams();
+    console.log(searchparams.get("id"))
 
-    
     let accountID = searchparams.get("id")
-
     const query = collection(db, "accounts")
     const [docs, loading, error] = useCollectionData (query);
 
@@ -70,6 +64,7 @@ export const Ledger = () => {
         getAccount(id);
         
     }, []); 
+
   
 
     // Fetch debits and credits from the journal entries
@@ -120,6 +115,8 @@ export const Ledger = () => {
         
         <h1 className="page-title">Account Ledger</h1>
         <CreateJE path={`accounts/${accountID}/journalEntries`} id={accountID} calcBalance={newbalance} calcCredit={credit} calcDebit={debit} />
+    \
+       
         <Table responsive striped bordered hover>
             <thead>
                 <tr>

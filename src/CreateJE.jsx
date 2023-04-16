@@ -15,6 +15,7 @@ import 'reactjs-popup/dist/index.css';
 
 
 
+
 import {
     ref,
     uploadBytesResumable,
@@ -41,6 +42,9 @@ const [newDateTime, setNewDateTime] = useState(Date)
 const [refidString, setrefidString] = useState("")
 const [approved, setApproved] = useState(false);
 const [postReference, setPostReference] = useState("")
+const [dateFilter, setdateFilter] = useState('');
+const [amountFilter, setAmountFilter] = useState(0)
+
 
 useEffect(() => {
 

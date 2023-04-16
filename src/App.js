@@ -19,6 +19,7 @@ import {ViewUsers} from './ViewUsers'
 import {DeactivateAccount} from './DeactivateAccount'
 import {Ledger} from "./Ledger"
 import {AdminCreateUser} from "./AdminCreateUser"
+import { JournalEntry } from './JournalEntry';
 import React, { useEffect, useState } from 'react';
 import './bootstrap.css';
 import './App.css';
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
   {
     path: "adminhome/viewaccounts/ledger",
     element: <Ledger />
+  },
+  {
+    path: "adminhome/viewaccounts/ledger/journalentry",
+    element: <JournalEntry />
   },
   {
     path: "adminhome/viewusers",
