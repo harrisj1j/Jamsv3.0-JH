@@ -61,7 +61,7 @@ export const Register = () =>{
 
           .then((userCredential) => {
             addDoc(usersCollectionRef, {
-                userUID : 'UID',
+                userUID : userCredential.user.uid,
                 firstName: firstname,
                 lastName: lastname,
                 birthday: dob,
