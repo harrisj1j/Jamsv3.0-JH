@@ -186,6 +186,9 @@ button {
   color: #7439db;
 }
 
+li {
+  list-style-type: none;
+}
 .page-title{
   top:10rem;
 }

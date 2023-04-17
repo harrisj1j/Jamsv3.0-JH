@@ -75,20 +75,29 @@ const [debitInputs, setDebitInput] = useState([
    
 ]);
 
-const handleChangeDebit = (index, event) => {
-    const values = [...debitInputs];
-    values[index][event.target.debit] = event.target.value;
-    setDebitInput(values);
+const handleChangeDebit = (id, event) => {
+   const newDebitInputs = debitInputs.map(i => {
+    if(id === i.id) {
+        i[event.target.name] = event.target.value
+        
+    }
+    
+    return i;
+   })
+   
+   setDebitInput(newDebitInputs)
+   console.log("the debit inputs are now: ",debitInputs)
 }
 
 const submitDebits = (e) => {
     e.preventDefault();
-    alert("debits: ", debitInputs)
+    console.log("submitted debits: ", debitInputs)
+    alert("Added debits: ", debitInputs[0])
 }
 
 const handleAddDeb = (e) => {
-    e.preventDefault();
-    setDebitInput([...debitInputs, {debit: 0}])
+    e.preventDefault()
+    setDebitInput([...debitInputs, {id: uuidv4(), debit: 0}])
 }
 const handleRemDeb = (e, id) => {
     e.preventDefault();
@@ -98,38 +107,40 @@ const handleRemDeb = (e, id) => {
 }
 //////////// credits form ///////////////
 const [creditInputs, setCreditInput] = useState([
-    {id: uuidv4(), credit: 0.00},
+    { id: uuidv4(), credit: 0.00},
    
 ]);
 
-const handleChangeCredit = (index, event) => {
-    const values = [...creditInputs];
-    values[index][event.target.credit] = event.target.value;
-    setCreditInput(values);
+const handleChangeCredit = (id, event) => {
+   const newcreditInputs = creditInputs.map(i => {
+    if(id === i.id) {
+        i[event.target.name] = event.target.value
+        
+    }
+    
+    return i;
+   })
+   console.log("the credit inputs are:", newcreditInputs)
+   setCreditInput(newcreditInputs)
+   
 }
 
 const submitCredits = (e) => {
     e.preventDefault();
-    alert("credits: ", creditInputs)
+    console.log("submitted credits: ", creditInputs)
+    alert("Added credits: ", creditInputs[0])
 }
 
 const handleAddCred = (e) => {
-    e.preventDefault();
-    setCreditInput([...creditInputs, {credit: 0}])
+    e.preventDefault()
+    setCreditInput([...creditInputs, {id: uuidv4(), credit: 0}])
 }
-const handleRemCred = (e, id) => {
+const handleRemCred= (e, id) => {
     e.preventDefault();
     const values = [...creditInputs];
-    values.splice(values.findIndex(value => value.id === id), 1);
-    setCreditInput(values);
+    values.splice(values.findIndex(value => value.id === id), 1);    setCreditInput(values);
 
-}
 
-//takes the summed credits and debits from the account ledger and updates the account balance, credit, and debit
-const editBalance = async (id, newBalance, newCredit, newDebit) => {
-    const accountDoc = doc(db, "accounts", id)
-    const newFields = {balance: parseFloat(newBalance), credit: parseFloat(newCredit), debit: parseFloat(newDebit)}
-    await updateDoc( accountDoc, newFields)
     
 }
 //////////////////document upload functionality////////////////////
@@ -169,10 +180,9 @@ function handleUpload(){
 
         
         const docRef=doc(db, path, refid);
-        await setDoc(docRef, {jeNumber: refid,  description: description.current.value, files: attachedFile, dateTime: newDateTime, approved: approved, pr: postReference});
+        await setDoc(docRef, {jeNumber: refid,  debits: debitInputs, credits: creditInputs, description: description.current.value, files: attachedFile, dateTime: newDateTime, approved: approved, pr: postReference});
         if(file)
             {handleUpload();}
-        editBalance(id, parseFloat(calcBalance), parseFloat(calcCredit), parseFloat(calcDebit))
         alert("Journal Entry Posted")
         e.target.reset();
     }
@@ -191,16 +201,14 @@ function handleUpload(){
                             
                            
                                 <button className="custom-button" onClick={(e)=>submitDebits(e)}>add debits &nbsp;&nbsp;&nbsp;&nbsp;<IoIosCreate/></button>
-                                { debitInputs.map((debitInput, index)=>(
-                                    <div key={index}>
+                                { debitInputs.map((debitInput)=>(
+                                    <div key={debitInput.id}>
                                          <TextField 
                                             name="debit"
                                             label="debit"
                                             variant="filled"
-                                            type="number"
-                                            ref={debit}
-                                            defaultValue={debitInput.debit}
-                                            onChange={event=> handleChangeDebit(index, event)}
+
+                                            onChange={event => handleChangeDebit(debitInput.id, event)}
                                          />
                                          
                                          <button className='custom-button-je' onClick={(e)=> handleAddDeb(e)}><AiOutlinePlusSquare/></button>
@@ -218,16 +226,14 @@ function handleUpload(){
                             
                             
                             <button onClick={(e)=>submitCredits(e)} className="custom-button" type="submit">add credits &nbsp;&nbsp;&nbsp;&nbsp;<IoIosCreate/></button>
-                                { creditInputs.map((creditInput, index)=>(
-                                    <div key={index}>
+                                { creditInputs.map((creditInput)=>(
+                                    <div key={creditInput.id}>
                                         <TextField 
                                             name="credit"
                                             label="credit"
                                             variant="filled"
-                                            type="number"
-                                            ref={credit}
-                                            defaultValue={creditInput.credit}
-                                            onChange={event=> handleChangeCredit(index, event)}
+
+                                            onChange={event=> handleChangeCredit(creditInput.id, event)}
                                         />
                                         
                                         <button className='custom-button-je' onClick={(e)=> handleAddCred(e)}><AiOutlinePlusSquare/></button>

@@ -1,3 +1,4 @@
+///////////Created by Ashly////////////////
 import React from "react";
 import { collection, query, where } from "firebase/firestore";
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -18,10 +19,29 @@ export function ChildrenList({path}){
 
     const navigate = useNavigate();
 
+    /////////////Open attached document in a new tab/////////////
     const openInNewTab = (url) => {
         console.log(url);
         window.open(url);
       };
+        ////////////Print Debits//////////////
+   const printDebits = (array) => {
+    
+   
+    const listItems = array.map((d) => <li  key={d.debit}>${numberWithCommas(d.debit)}</li>);
+   
+    return listItems
+   }
+        ////////////Print Credits//////////////
+        const printCredits = (array) => {
+    
+   
+            const listItems = array.map((d) => <li  key={d.credit}>${numberWithCommas(d.credit)}</li>);
+           
+            return listItems
+           }
+    
+
 
       ////////////////////////Open journal entry by clicking Post reference////////////////////
 
@@ -50,8 +70,9 @@ export function ChildrenList({path}){
         <tr key={Math.random()}>
            
                 <td >{idx+1}</td>
-                <td >{numberWithCommas(doc.debit)}</td>
-                <td >{numberWithCommas(doc.credit)}</td>
+                <td>{printDebits(doc.debits)}</td>
+               
+                <td >{printCredits(doc.credits)}</td>
                 <td >{doc.description}</td>
                 <td>{doc.dateTime}</td>
                 <td> {doc.files.length > 0 &&
