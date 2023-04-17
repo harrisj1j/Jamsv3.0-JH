@@ -36,6 +36,7 @@ export const Ledger = () => {
     const [newbalance, setNewBalance] = useState(0)
     const [description, setDescription] = useState("")
     const [jeNum, setjeNum] = useState(0);
+    const [initialBalance, setInitialBalance] = useState(0)
 
     useEffect(() => {
 
@@ -51,6 +52,7 @@ export const Ledger = () => {
             const debit = data.debit;
             const balance = data.balance;
             const description = data.description;
+            setInitialBalance(data.initialBalance)
             setName(name);
             setNumber(number);
             setCategory(category);
@@ -111,10 +113,11 @@ export const Ledger = () => {
  
     return (
         <>
-        <div className ="ledger-container">
         
+        <div className ="ledger-container">
         <h1 className="page-title">Account Ledger</h1>
-        <CreateJE path={`accounts/${accountID}/journalEntries`} id={accountID} calcBalance={newbalance} calcCredit={credit} calcDebit={debit} />
+        
+       <CreateJE path={`accounts/${accountID}/journalEntries`} id={accountID} calcBalance={newbalance} calcCredit={credit} calcDebit={debit} />
     \
        
         <Table responsive striped bordered hover>
@@ -123,7 +126,7 @@ export const Ledger = () => {
                 <th>#</th>
                 <th>Name</th>
                 <th>Category</th>
-                <th>Balance</th>
+                <th>Initial Balance</th>
                 <th>Description</th>
                 </tr>
             </thead>
@@ -132,7 +135,7 @@ export const Ledger = () => {
                     <td>{number}</td>
                     <td>{name}</td>
                     <td>{category}</td>
-                    <td>{numberWithCommas(balance)}</td>
+                    <td>{numberWithCommas(initialBalance)}</td>
                     <td>{description}</td>
                 </tr>
             </tbody>
