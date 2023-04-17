@@ -5,6 +5,7 @@ import { ImWarning } from 'react-icons/im';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { BiAddToQueue} from 'react-icons/bi';
+import {AiFillCheckCircle} from  'react-icons/ai'
 
 
 
@@ -12,6 +13,7 @@ export const ManagerHome = (props) => {
 
     return (
         <>
+
             <Link to="addaccount">
                 <div className = "card">
                     <h3>Add<br></br> Account</h3>
@@ -30,7 +32,7 @@ export const ManagerHome = (props) => {
                 <div className = "card">
                     <h3>Approve/Reject<br></br>Journal Entries</h3>
                     <br></br>
-                    <BiAddToQueue size={50}/>
+                    <AiFillCheckCircle size={50}/>
                 </div>
             </Link>
             <Link to="viewusers">

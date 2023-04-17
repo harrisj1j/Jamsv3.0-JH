@@ -24,24 +24,9 @@ export const AuthDetails = () => {
     const usersCollectionRef = collection(db, 'users');
     const [userEmail, setuserEmail] = useState("")
     const [userUID, setuserUID] = useState("")
+    const [username, setusername] = useState("")
 
-    const genUsrnm = (firstName, lastName, birthdate) => {
-        
-        let firstInitial = firstName.charAt(0);
-        let last = lastName
-        let dob = birthdate.substr(6, 9);
-        let username = firstInitial.concat(last, dob);
-
-
-        console.log(username)
-        
-        return (username)
-           
-            
-            
-
-    }
-    
+   
 
     useEffect(() => {
         const listen = onAuthStateChanged(auth, async (user) => {
@@ -61,6 +46,7 @@ export const AuthDetails = () => {
                     console.log(doc.id, " => ", doc.data());
                     const data = doc.data();
                     setFName(data.firstName)
+                    setusername(data.username)
                     console.log("the user's name is: ", firstname)
                 })
                 
@@ -92,7 +78,7 @@ export const AuthDetails = () => {
         <div>
             { authUser ? <> 
             
-            <p>{`Signed in as ${genUsrnm(firstname, lastname, dob)}`}</p> <a onClick={userSignOut} ><h5>Sign Out</h5><LogoutIcon /></a></>: <p>Signed Out</p>} {/**display authUser (email) if they are logged in or if they are signed out */}
+            <p>{`Signed in as ${username}`}</p> <a onClick={userSignOut} ><h5>Sign Out</h5><LogoutIcon /></a></>: <p>Signed Out</p>} {/**display authUser (email) if they are logged in or if they are signed out */}
         </div> 
     )
 }

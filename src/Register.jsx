@@ -27,7 +27,20 @@ export const Register = () =>{
     const [dob, setDob] = useState('');
     const [username, setUsername] = useState('');
 
+    ///////generate username///////////////////
+    const genUsrnm = (firstName, lastName, birthdate) => {
+        
+        let firstInitial = firstName.charAt(0);
+        let last = lastName
+        let dob = birthdate.substr(6, 9);
+        let username = firstInitial.concat(last, dob);
 
+
+        console.log(username)
+        
+        return (username)     
+
+    }
 
 
   
@@ -60,6 +73,8 @@ export const Register = () =>{
         createUserWithEmailAndPassword(auth, email, password)
 
           .then((userCredential) => {
+            const username = genUsrnm(firstname, lastname, dob)
+
             addDoc(usersCollectionRef, {
                 userUID : userCredential.user.uid,
                 firstName: firstname,
@@ -73,7 +88,7 @@ export const Register = () =>{
                 suspended : false,
                 suspensionStart: '',
                 suspensionEnd: '',
-                username: '',
+                username: username,
                 password : password,
 
             });

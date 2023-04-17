@@ -10,7 +10,15 @@ import { BiUpload } from 'react-icons/bi';
 import { IoIosCreate } from 'react-icons/io';
 import { v4 as uuidv4 } from 'uuid';
 import Popup from 'reactjs-popup';
+import { onAuthStateChanged} from 'firebase/auth';
+import { usersCollectionRef } from './firebase.js';
+import { query, where } from "firebase/firestore";
+import { getDocs} from "firebase/firestore"
+import { auth } from './firebase.js';
+
+
 import 'reactjs-popup/dist/index.css';
+
 
 
 
@@ -26,26 +34,26 @@ import {
 export function CreateJE({path, id, calcBalance, calcCredit, calcDebit}) {
 
 const ref2 = useRef();
+const [authUser, setAuthuser] = useState(null);
 
-const [debits, setDebits] = useState([]);
-const [credits, setCredits] = useState([]);
-const [debitsTotal, setDT] = useState(0);
-const [creditsTotal, setCT] = useState(0);
-const credit = useRef(); 
-const debit = useRef();
+const usersCollectionRef = collection(db, 'users');
+const [userUID, setuserUID] = useState("")
 const description = useRef();
 const [file, setFile]= useState("")
 const [percent, setPercent] = useState(0);
 const [attachedFile, setAttachedFile] = useState("")
 const [refid, setrefid] = useState('')
 const [newDateTime, setNewDateTime] = useState(Date)
-const [refidString, setrefidString] = useState("")
 const [approved, setApproved] = useState(false);
 const [postReference, setPostReference] = useState("")
 const [dateFilter, setdateFilter] = useState('');
 const [amountFilter, setAmountFilter] = useState(0)
+const [username, setUsername] = useState("")
+const [role, setRole] = useState("")
 
 
+
+/////////////////generate journal entry number and post reference////////////////////////
 useEffect(() => {
 
     const getCount =  async () => {
@@ -68,6 +76,46 @@ useEffect(() => {
 }, [refid]); 
 
   const close = () => ref2.current.close();
+
+  /////////////////////////////get the user that posts the journal entry//////////////////////
+  useEffect(() => {
+    const listen = onAuthStateChanged(auth, async (user) => {
+        if(user) {
+            setAuthuser(user) //if user us logged in, set authuser to the logged in user
+            setuserUID(user.uid)
+            
+            
+            const q = query(usersCollectionRef, where("userUID", "==", user.uid));
+           
+
+            const querySnapshot = await getDocs(q);
+            if(querySnapshot.empty){
+                console.log("no document")
+            }
+            querySnapshot.forEach((doc)=>{
+                console.log(doc.id, " => ", doc.data());
+                const data = doc.data();
+                setRole(data.role)
+                setUsername(data.username)
+                
+            })
+            
+
+
+        }else{
+            setAuthuser(null);//otherwise authuser is null
+            
+        }
+        
+        
+    });
+
+    return () => {
+        listen();
+    }
+
+}, [authUser, userUID, role]);
+
 
 //////////// debits form ///////////////
 const [debitInputs, setDebitInput] = useState([
@@ -178,13 +226,19 @@ function handleUpload(){
     async function handleSubmit(e) {
         e.preventDefault();
 
-        
-        const docRef=doc(db, path, refid);
-        await setDoc(docRef, {jeNumber: refid,  debits: debitInputs, credits: creditInputs, description: description.current.value, files: attachedFile, dateTime: newDateTime, approved: approved, pr: postReference});
-        if(file)
-            {handleUpload();}
-        alert("Journal Entry Posted")
-        e.target.reset();
+        console.log("there are this many debits: ", debitInputs.length)
+        if(debitInputs.at(0).debit > 0 && creditInputs.at(0).credit > 0){
+            const docRef=doc(db, path, refid);
+            await setDoc(docRef, {jeNumber: refid,  debits: debitInputs, credits: creditInputs, description: description.current.value, files: attachedFile, dateTime: newDateTime, approved: approved, pr: postReference, user: username, role: role});
+            if(file)
+                {handleUpload();}
+            alert("Journal Entry Posted")
+            e.target.reset();
+        }
+        else{
+            alert("Journal entry must contain at least one debit and credit")
+        }
+       
     }
 
     return (

@@ -47,7 +47,20 @@ export const AdminCreateUser = () => {
 
       const hashedPassword = bcrypt.hashSync(password, 10);
 
+     const genUsrnm = (firstName, lastName, birthdate) => {
+        
+        let firstInitial = firstName.charAt(0);
+        let last = lastName
+        let dob = birthdate.substr(6, 9);
+        let username = firstInitial.concat(last, dob);
 
+
+        console.log(username)
+        
+        return (username)     
+
+    }
+    
 
     
     const usersCollectionRef = collection(db, 'users');
@@ -58,6 +71,7 @@ export const AdminCreateUser = () => {
         createUserWithEmailAndPassword(auth, email, password)
 
           .then((userCredential) => {
+            const username = genUsrnm(firstname, lastname, dob)
             addDoc(usersCollectionRef, {
                 userUID : userCredential.user.uid,
                 firstName: firstname,
@@ -71,7 +85,7 @@ export const AdminCreateUser = () => {
                 suspended : false,
                 suspensionStart: '',
                 suspensionEnd: '',
-                username: '',
+                username: username,
                 password : hashedPassword,
 
             });

@@ -70,8 +70,8 @@ export function ChildrenList({path}){
         <tr key={Math.random()}>
            
                 <td >{idx+1}</td>
+                <td>{doc.user}</td>
                 <td>{printDebits(doc.debits)}</td>
-               
                 <td >{printCredits(doc.credits)}</td>
                 <td >{doc.description}</td>
                 <td>{doc.dateTime}</td>

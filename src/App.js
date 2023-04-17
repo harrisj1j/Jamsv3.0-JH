@@ -63,31 +63,31 @@ const router = createBrowserRouter([
     element: <AccountantHome />
   },
   {
-    path: "adminhome/addaccount",
+    path: "home/addaccount",
     element: <AddAccount />
   },
   {
-    path: "adminhome/AdminCreateUser",
+    path: "home/AdminCreateUser",
     element: <AdminCreateUser/>
   },
   {
-    path: "adminhome/viewaccounts/editaccount",
+    path: "home/viewaccounts/editaccount",
     element: <EditAccount />
   },
   {
-    path: "adminhome/viewaccounts",
+    path: "home/viewaccounts",
     element: <ViewAccounts />
   },
   {
-    path: "adminhome/viewaccounts/ledger",
+    path: "home/viewaccounts/ledger",
     element: <Ledger />
   },
   {
-    path: "adminhome/viewaccounts/ledger/journalentry",
+    path: "home/viewaccounts/ledger/journalentry",
     element: <JournalEntry />
   },
   {
-    path: "adminhome/viewusers",
+    path: "home/viewusers",
     element: <ViewUsers />
   },
 
