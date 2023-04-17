@@ -26,6 +26,13 @@ export const ManagerHome = (props) => {
                     <ImEye size={50}/>
                 </div>
             </Link>
+            <Link>
+                <div className = "card">
+                    <h3>Approve/Reject<br></br>Journal Entries</h3>
+                    <br></br>
+                    <BiAddToQueue size={50}/>
+                </div>
+            </Link>
             <Link to="viewusers">
                 <div className = "card">
                     <h3>View</h3>
@@ -35,13 +42,7 @@ export const ManagerHome = (props) => {
                     <AccountCircleIcon sx={{ fontSize: 50 }}/>
                 </div>
             </Link>
-            <Link to="adminCreateUser">
-                <div className = "card">
-                    <h3>Create<br></br> User</h3>
-                    <br></br>
-                    <AiOutlineUserAdd size={50}/>
-                </div>
-            </Link>
+         
         </>
         
         );

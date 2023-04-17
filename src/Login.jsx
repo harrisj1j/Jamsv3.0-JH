@@ -13,29 +13,27 @@ export const Login = (props) =>{
     const navigate = useNavigate();
 
     {/*start app on login screen */}
-  const [currentForm, setCurrentForm] = useState('login');
-  const toggleForm = (formName) =>{
-    setCurrentForm(formName);
-  }
+ 
   
     {/* event handler for form entry*/}
 
-    /*
+
         const logIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             console.log(userCredential)
-            navigate("/adminhome");
+            navigate("/home");
 
         }).catch((error) => {
             console.log(error);
         })
         
     }
-    */
+
    //Login that chooses the splash page you see based on your role
 
+   /*
  const logIn = (e) => {
   e.preventDefault();
   signInWithEmailAndPassword(auth, email, password)
@@ -57,6 +55,7 @@ export const Login = (props) =>{
       console.log(error);
     });
 };
+ */
 
 
     //login form

@@ -20,9 +20,27 @@ export const AuthDetails = () => {
     const navigate = useNavigate();
     const [firstname, setFName] = useState("")
     const [lastname, setLName] = useState("")
+    const [dob, setDob] = useState("")
     const usersCollectionRef = collection(db, 'users');
     const [userEmail, setuserEmail] = useState("")
     const [userUID, setuserUID] = useState("")
+
+    const genUsrnm = (firstName, lastName, birthdate) => {
+        
+        let firstInitial = firstName.charAt(0);
+        let last = lastName
+        let dob = birthdate.substr(6, 9);
+        let username = firstInitial.concat(last, dob);
+
+
+        console.log(username)
+        
+        return (username)
+           
+            
+            
+
+    }
     
 
     useEffect(() => {
@@ -32,13 +50,21 @@ export const AuthDetails = () => {
                 setuserUID(user.uid)
                 setuserEmail(user.email)
                 
-                const q = query(usersCollectionRef, where("email", "==", user.email));
-                const querySnapshot = await getDocs(q);
-                const data = querySnapshot.data();
-                setFName(data.firstName)
-                console.log("the first name is: ", firstname)
+                const q = query(collection(db, "users"), where("userUID", "==", user.uid));
+               
 
+                const querySnapshot = await getDocs(q);
+                if(querySnapshot.empty){
+                    console.log("no document")
+                }
+                querySnapshot.forEach((doc)=>{
+                    console.log(doc.id, " => ", doc.data());
+                    const data = doc.data();
+                    setFName(data.firstName)
+                    console.log("the user's name is: ", firstname)
+                })
                 
+
 
             }else{
                 setAuthuser(null);//otherwise authuser is null
@@ -66,7 +92,7 @@ export const AuthDetails = () => {
         <div>
             { authUser ? <> 
             
-            <p>{`Signed in as ${firstname}`}</p> <a onClick={userSignOut} ><h5>Sign Out</h5><LogoutIcon /></a></>: <p>Signed Out</p>} {/**display authUser (email) if they are logged in or if they are signed out */}
+            <p>{`Signed in as ${genUsrnm(firstname, lastname, dob)}`}</p> <a onClick={userSignOut} ><h5>Sign Out</h5><LogoutIcon /></a></>: <p>Signed Out</p>} {/**display authUser (email) if they are logged in or if they are signed out */}
         </div> 
     )
 }

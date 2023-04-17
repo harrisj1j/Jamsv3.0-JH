@@ -10,7 +10,7 @@ import { Forgotpass } from './Forgotpass';
 import {AdminHome} from './AdminHome';
 import {ManagerHome} from './ManagerHome';
 import {AccountantHome} from './AccountantHome';
-
+import { Home } from './Home'
 import ProtectedRoutes from './ProtectedRoutes';
 import {AddAccount} from './AddAccount'
 import {EditAccount} from './EditAccount'
@@ -41,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Login />,
+  },
+  {
+    path: "home",
+    element: <Home />,
   },
   {
     path: "forgotpass",
