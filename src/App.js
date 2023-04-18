@@ -6,6 +6,7 @@ import { Login } from './Login';
 import { Register } from './Register';
 import {Navbar} from './Navbar';
 import {Root} from './root';
+import  {EventLog } from './EventLog';
 import { Forgotpass } from './Forgotpass';
 import {AdminHome} from './AdminHome';
 import {ManagerHome} from './ManagerHome';
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
     element: <DeactivateAccount />
   },
 
+  {
+    path: "Home/Eventlog",
+    element: <EventLog />
+  },
   
     ]
   },

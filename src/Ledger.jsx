@@ -33,7 +33,7 @@ export const Ledger = () => {
     const [credit, setCredit] = useState(0)
     const [debit, setDebit] = useState(0)
     const [balance, setBalance] = useState(0)
-    const [newbalance, setNewBalance] = useState(0)
+    const [NetBalance, setNetBalance] = useState(0)
     const [description, setDescription] = useState("")
     const [jeNum, setjeNum] = useState(0);
     const [initialBalance, setInitialBalance] = useState(0)
@@ -42,7 +42,7 @@ export const Ledger = () => {
 
         let id = accountID
         const getAccount =  async (id) => {
-            const accountDoc = doc(db, "accounts", id);
+             const accountDoc = doc(db, "accounts", id);
             const docSnap = await getDoc(accountDoc);
             const data = docSnap.data();
             const name = data.name;
@@ -95,7 +95,7 @@ export const Ledger = () => {
         // the sum of the credits is subtracted from the sum of the credits and set as the new balance
         setDebit(debitSum);
         setCredit(creditSum);
-        setNewBalance(parseFloat(debitSum)-parseFloat(creditSum));
+        setNetBalance(parseFloat(debitSum)-parseFloat(creditSum));
         setjeNum(numSum)
         
         
@@ -117,7 +117,7 @@ export const Ledger = () => {
         <div className ="ledger-container">
         <h1 className="page-title">Account Ledger</h1>
         
-       <CreateJE path={`accounts/${accountID}/journalEntries`} id={accountID} calcBalance={newbalance} calcCredit={credit} calcDebit={debit} />
+       <CreateJE path={`accounts/${accountID}/journalEntries`} id={accountID} calcBalance={NetBalance} calcCredit={credit} calcDebit={debit} />
     \
        
         <Table responsive striped bordered hover>

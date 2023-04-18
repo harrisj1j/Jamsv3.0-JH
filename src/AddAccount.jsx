@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {db} from './firestore';
-import { collection,  addDoc, query, where, getDocs} from "firebase/firestore"
+import { collection,  addDoc, query, where, getDocs } from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
 import menuLogo from './img/JAMS_1563X1563.png'
 import { auth } from './firebase';
