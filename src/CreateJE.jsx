@@ -195,6 +195,7 @@ const handleRemCred= (e, id) => {
 
 function handleChange(event){
     setFile(event.target.files[0]);
+    console.log("the file is: ", file)
 }
 function handleUpload(){
     

@@ -81,7 +81,7 @@ export const AddAccount = () =>{
         //check to make sure valid entries for name and number have been entered, if so create account
         if(newName !== '' && newNumber !== 0 && dupAccount === false){
             await addDoc(accountsCollectionRef, {name: newName, number: newNumber, category: newCategory, credit: parseFloat(newCredit), debit: parseFloat(newDebit), initialBalance: newIB, balance: parseFloat(calcBalance(newIB, newCredit, newDebit)), description: newDescription, dateTime: newDateTime, user: authUser.email})
-            navigate("/adminhome/viewaccounts");}
+            navigate("/home/viewaccounts");}
         else if(dupAccount === true){
             alert("Account exists")}
         else{
@@ -107,6 +107,7 @@ export const AddAccount = () =>{
                 <input placeholder="Name..." onChange={(event) => {setNewName(event.target.value)}} />
                 <input type="number" placeholder="Number..."  onChange={(event) => {accntnumChk(event.target.value)}}  />
                 <select value={newCategory} onChange={(e) => setNewCategory(e.target.value)}>
+                <option value="default">category...</option>
                     <option value="asset">asset</option>
                     <option value="liability">liability</option>
                     <option value="expense">expense</option>
