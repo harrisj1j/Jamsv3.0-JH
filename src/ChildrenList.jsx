@@ -80,7 +80,7 @@ export function ChildrenList({path}){
                     }
                 </td>
                 <td>
-                    <button className="custom-button-je" onClick={()=>openJournal(path, doc.jeNumber)}>{doc.pr}</button>
+                    <button className="link-btn" onClick={()=>openJournal(path, doc.jeNumber)}>{doc.pr}</button>
                 </td>
                 
              
