@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {db} from './firestore';
-import { collection,  addDoc, query, where, getDocs} from "firebase/firestore"
+import { collection,  addDoc, query, where, getDocs } from "firebase/firestore"
 import { useNavigate } from "react-router-dom";
 import menuLogo from './img/JAMS_1563X1563.png'
 import { auth } from './firebase';
@@ -81,7 +81,7 @@ export const AddAccount = () =>{
         //check to make sure valid entries for name and number have been entered, if so create account
         if(newName !== '' && newNumber !== 0 && dupAccount === false){
             await addDoc(accountsCollectionRef, {name: newName, number: newNumber, category: newCategory, credit: parseFloat(newCredit), debit: parseFloat(newDebit), initialBalance: newIB, balance: parseFloat(calcBalance(newIB, newCredit, newDebit)), description: newDescription, dateTime: newDateTime, user: authUser.email})
-            navigate("/adminhome/viewaccounts");}
+            navigate("/home/viewaccounts");}
         else if(dupAccount === true){
             alert("Account exists")}
         else{
