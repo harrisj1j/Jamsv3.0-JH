@@ -42,7 +42,16 @@ export const AdminHome = (props) => {
                     <AiOutlineUserAdd size={50}/>
                 </div>
             </Link>
+            <Link to="EventLog">
+                <div className = "card">
+                    <h3>Event<br></br> Log</h3>
+                    <br></br>
+                    <AiOutlineUserAdd size={50}/>
+                </div>
+            </Link>
+        
         </>
+        
         
         );
 }
